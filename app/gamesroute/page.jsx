@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
+import { fetchApi } from '@/data/apiconsumer';
 
 function gamePage() {
   const [games, setGames] = useState([]);
