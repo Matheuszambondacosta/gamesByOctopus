@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import fetchApi from '@/data/apiconsumer';
+import GameCard from '../components/gameDetails/GameCard';
 
 function gamePage() {
     const [games, setGames] = useState([]);
@@ -24,19 +25,32 @@ function gamePage() {
     }, []);
 
     const filterGames = games.filter((game) => {
-    const platformName = game.platforms.map((platform) => platform.platform.name);
-    const gameGenres = game.genres.map((genre) => genre.name);
-    const platformFilter = selectedPlatform == "all" || platformName.includes(selectedPlatform);
-    const genreFilter = selectedGenre == "all" || gameGenres.includes(selectedGenre);
-    const ratingFilter = selectedRating == "all" || game.rating == selectedRating;
-    return platformFilter && genreFilter && ratingFilter;
+        const platformName = game.platforms.map((platform) => platform.platform.name);
+        const gameGenres = game.genres.map((genre) => genre.name);
+        const platformFilter = selectedPlatform == "all" || platformName.includes(selectedPlatform);
+        const genreFilter = selectedGenre == "all" || gameGenres.includes(selectedGenre);
+        const ratingFilter = selectedRating == "all" || game.rating == selectedRating;
+        return platformFilter && genreFilter && ratingFilter;
     });
 
-        return (
-            <main className={styles.main}>
-                <h1>Game Page</h1>
-            </main>
-        );
-    }
+    return (
+        <main className={styles.main}>
+            <h1>Game Page</h1>
+            <h2>Filtre pela plataforma:</h2>
+            <select
+                value={selectedPlatform}
+                onChange={(e) => setSelectedPlatform(e.target.value)}
+            >
+                <option value="all">Todas</option>
+                {
+                    games.map((game) => game.platforms.map((platform) => <option value={platform.platform.name}>{platform.platform.name}</option>))
+                }
+            </select>
+            <div className={styles.container}>
+                <GameCard games={filterGames} />
+                </div>
+        </main>
+    );
+}
 
 export default gamePage;
