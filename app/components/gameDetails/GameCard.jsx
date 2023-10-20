@@ -1,5 +1,7 @@
 "use client";
 import styles from './GameCard.module.css';
+import { BsTrashFill } from 'react-icons/bs';
+import { BiSolidEditAlt } from 'react-icons/bi';
 import Link from 'next/link';
 
 const GameCard = ({ game }) => {
@@ -24,6 +26,14 @@ const GameCard = ({ game }) => {
         <p className={styles.platforms}>{getPlatforms(game.parent_platforms)}</p>
         <Link className={styles.seeMore} href={`/game/${game.id}`}>Veja Mais</Link>
       </div>
+      <div className={styles.contaierbuttons}>
+        <button className={styles.button}>
+          <BsTrashFill />
+        </button>
+        <button className={styles.button}>
+          <BiSolidEditAlt />
+        </button>
+    </div>
     </div>
     );
     }
