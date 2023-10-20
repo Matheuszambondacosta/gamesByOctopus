@@ -1,5 +1,5 @@
 .logo {
-    font-size: 25px;
+    font-size: 22px;
     text-transform: uppercase; 
     color: #fff;
 }
@@ -10,8 +10,8 @@
     margin: auto;
 }
 .logoOctopus{
-    width: 7rem;
-    height: 6rem;
+    width: 4.5rem;
+    height: 4.5rem;
 }
 .nav {
     display: flex;
