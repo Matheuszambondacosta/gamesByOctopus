@@ -34,7 +34,7 @@ function Home() {
 
 
 
-  const filterGames = games.filter((game) => {
+    const filterGames = games.filter((game) => {
     const platformName = game.platforms.map((platform) => platform.platform.name);
     const gameGenres = game.genres.map((genre) => genre.name);
     const platformFilter = selectedPlatform == "all" || platformName.includes(selectedPlatform);

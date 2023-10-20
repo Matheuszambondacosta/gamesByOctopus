@@ -1,0 +1,61 @@
+.logo {
+    font-size: 25px;
+    text-transform: uppercase; 
+    color: #fff;
+}
+.menu{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.menu1{
+    margin: auto;
+}
+.nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: arial;
+    border-bottom: black solid 5px;
+}
+.menu{
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+.mainContainer{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background-color: white;
+}
+.icons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 110px;
+    
+
+}
+
+.icon1 {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    color: #000;
+}
+
+.icon2 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    color: #000;
+}
+.icon3 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    color: #000;
+}
+
+
