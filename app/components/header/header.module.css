@@ -1,0 +1,75 @@
+.logo {
+    font-size: 22px;
+    text-transform: uppercase; 
+    color: #fff;
+}
+.menu{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.menu1{
+    margin: auto;
+}
+.logoOctopus{
+    width: 4.5rem;
+    height: 4.5rem;
+}
+.nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: arial;
+    border-bottom: black solid 5px;
+}
+.menu{
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+.mainContainer{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 4%;
+    height: 100vh;
+    background-color: white;
+}
+.icons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -3px;
+    
+
+}
+
+.icon1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+}
+
+.icon2 {
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+}
+.icon3 {
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+}
+.icon4 {
+    margin-top: 430px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+}
+
+.icons1{
+    display: flex;
+    flex-direction: column;
+    margin-top: -3px;
+    
+}

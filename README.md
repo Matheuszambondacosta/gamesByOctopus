@@ -1,36 +1,85 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Documentação da API de Jogos para a Equipe Octopus
 
-First, run the development server:
+## Introdução
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Este documento serve como um guia para a API de Jogos, desenvolvida em React JS para a equipe Octopus. Aqui, você encontrará informações sobre a estrutura da API, os componentes React e como interagir com os endpoints.
+
+## Pré-requisitos
+
+- Node.js
+- React JS
+- Axios para chamadas de API
+
+## Instalação e Configuração
+
+1. Clone o repositório do GitHub.
+2. Rode `npm install` para instalar as dependências.
+3. Utilize `npm run dev` para iniciar o servidor de desenvolvimento.
+
+## Estrutura de Diretórios
+
+```
+src/
+|-- components/
+| |-- GameCard.js
+| |-- GameDetail.js
+|-- api/
+| |-- page.jsx
+|-- App.js
+```
+### Link da API
+'https://api.rawg.io/api/games?key=2014ca8f1ab34906952da5f330744b55'
+
+### GameList.js
+
+Este componente lista todos os jogos disponíveis na API.
+
+```jsx
+import React from 'react';
+import axios from 'axios';
+
+const GameList = () => {
+  // Fetch data logic here
+};
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### GameDetail.js
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Este componente exibe informações detalhadas sobre um jogo específico.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```jsx
+import React from 'react';
+import axios from 'axios';
 
-## Learn More
+const GameDetail = ({ gameId }) => {
+  // Fetch data logic here
+};
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Exemplo de Uso com Axios
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para listar todos os jogos:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```jsx
+axios.get('/api/games')
+  .then(response => {
+    // Handle the response
+  })
+  .catch(error => {
+    // Handle the error
+  });
+```
 
-## Deploy on Vercel
+## Conclusão
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Esta API foi projetada para ser modular e fácil de usar. Ela fornece uma base sólida sobre a qual a equipe Octopus pode construir e adaptar funcionalidades conforme necessário.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contribuidores
+
+- Arthur Borges - Tech Lead;
+- Isabela Oliveira;
+- João Victor Oliveira;
+- Matheus Zambon;
+- Nicoly Val.
