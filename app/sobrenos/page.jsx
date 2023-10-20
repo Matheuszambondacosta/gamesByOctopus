@@ -6,7 +6,7 @@ import Image from 'next/image';
 function SobreNos() {
     return (
         <main className={Styles.main1}>
-   {/* <Header/> */}
+   <Header />
             <h1 className={Styles.titulo}>Sobre Nós</h1>
 
             <div className={Styles.container}>
