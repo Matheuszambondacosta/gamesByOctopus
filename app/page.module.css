@@ -6,12 +6,26 @@
     font-size: 1.2rem;
     height: 100%;
 } 
+
   .searchInput {
     padding: 0.5rem;
     border: none;
     border-radius: 0.5rem;
     outline: none;
     text-align: center;
+  }
+  .containerGames{
+    display: flex;
+    flex-direction: row;
+    background-color: #0070f3;
+    font-size: 90;
+    margin-bottom: 20;
+  
+  }
+  
+  .gameCard {
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
   }
   .divinput{
     display: flex;
@@ -40,12 +54,4 @@
     cursor: pointer;
     margin: 1rem 0;
   }
-  
-  .containerGames {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-between;
-  }
-
   
