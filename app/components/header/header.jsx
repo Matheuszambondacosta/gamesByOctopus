@@ -43,11 +43,13 @@ function Header() {
                     <GrGroup className={styles.icon2} />
                     <GiRetroController className={styles.icon3} />
 
+                    <div className={styles.icons1}>
+                <SiLinktree className={styles.icon4} />
                 </div>
 
-                <div>
-                <SiLinktree />
                 </div>
+
+           
 
 
             </header>
