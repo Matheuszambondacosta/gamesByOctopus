@@ -26,7 +26,7 @@ import { useState } from 'react';
             <nav className={styles.nav}>
 
                 <div onClick={teste} className={styles.menu}>
-                <Image className={styles.logoclash} src={'/controle.png'} alt="akfadfa" width={240} height={100}></Image>
+                <Image className={styles.logoclash} src={'/'} alt="akfadfa" width={240} height={100}></Image>
                 </div>
                 
             </nav>
