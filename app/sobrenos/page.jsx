@@ -1,11 +1,13 @@
 import React from 'react'
 import Styles from './sobrenos.module.css'
 import Image from 'next/image';
+import Header from '../components/header/header';
 
 
 function SobreNos() {
     return (
         <main className={Styles.main1}>
+
    <Header />
             <h1 className={Styles.titulo}>Sobre Nós</h1>
 
