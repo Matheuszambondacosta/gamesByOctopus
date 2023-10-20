@@ -11,20 +11,18 @@ import Header from './components/header/header';
 function Home() {
   const [games, setGames] = useState([]);
   const [search, setsearch] = useState("");
+  const [page, setPage] = useState(1);
   const [selectedPlatform, setSelectedPlatform] = useState("all");
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [selectedRating, setSelectedRating] = useState("all");
   const [title, setTitle] = useState("");
   const [platform, setPlatform] = useState("");
   const [genre, setGenre] = useState("");
-  const [comentarios, setComentarios] = useState([]);
-  const [listaJogo, setListaJogo] = useState([]);
-  const [listaComentarios, setListaComentarios] = useState([]);
   const lowerSearch = search.toLowerCase();
   useEffect(() => {
     const gamesFetch = async () => {
       try {
-        const dados = await fetchApi();
+        const dados = await fetchApi(page);
         setGames(dados);
       } catch (error) {
         throw error;
@@ -32,9 +30,19 @@ function Home() {
     };
 
     gamesFetch();
-  }, []);
+  }, [page]);
 
+  const nextPage = () => {
+    const newPage = page + 1;
+    setPage(newPage);
+    gamesFetch(newPage);
+  };
 
+  const previousPage = () => {
+    const newPage = page - 1;
+    setPage(newPage);
+    gamesFetch(newPage);
+  };
 
     const filterGames = games.filter((game) => {
     const platformName = game.platforms.map((platform) => platform.platform.name);
@@ -144,6 +152,14 @@ function Home() {
         <div className={styles.containerGames}>
           <GameList filterGames={filterGames} />
         </div>
+      </div>
+      <div className={styles.pagesbuttons}>
+      <button className={styles.button} onClick={previousPage}>
+        Página anterior
+      </button>
+      <button className={styles.button} onClick={nextPage}>
+        Próxima página
+      </button>
       </div>
       <div className={styles.containerInputs}>
         <h1>Adicione seu Jogo</h1>

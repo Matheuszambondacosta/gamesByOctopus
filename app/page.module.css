@@ -10,6 +10,12 @@
   display: none;
 
 }
+.pagesbuttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+}
   .searchInput {
     padding: 0.5rem;
     border: none;

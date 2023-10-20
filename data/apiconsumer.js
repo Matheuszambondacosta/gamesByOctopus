@@ -1,8 +1,8 @@
 import axios from 'axios';
-const URL_API = 'https://api.rawg.io/api/games?key=2014ca8f1ab34906952da5f330744b55'
 
 
-export const fetchApi = async () => {
+export const fetchApi = async (page) => {
+    const URL_API = `https://api.rawg.io/api/games?key=2014ca8f1ab34906952da5f330744b55&page=${page}`;
 
     try {
         const resposta = await axios.get(URL_API);
