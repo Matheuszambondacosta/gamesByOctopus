@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import fetchApi from '@/data/apiconsumer';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
+import SobreNos from './sobrenos/page';
 
 function Home() {
     const [games, setGames] = useState([]);
