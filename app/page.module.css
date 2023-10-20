@@ -6,7 +6,10 @@
     font-size: 1.2rem;
     height: 100%;
 } 
+.containerInputs{
+  display: none;
 
+}
   .searchInput {
     padding: 0.5rem;
     border: none;

@@ -145,8 +145,6 @@ function Home() {
         </div>
       </div>
       <div className={styles.containerInputs}>
-      <form onSubmit={handleSubmit}>
-      <div className={styles.containerInputs}>
         <h1>Adicione seu Jogo</h1>
         <label htmlFor="title">Título:</label>
         <input
@@ -170,8 +168,6 @@ function Home() {
           onChange={(event) => setGenre(event.target.value)}
         />
         <button type="submit">Adicionar Jogo</button>
-      </div>
-    </form>
       </div>
     </main>
   );
