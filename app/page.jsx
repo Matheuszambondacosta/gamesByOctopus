@@ -4,13 +4,20 @@ import styles from './page.module.css';
 import { fetchApi } from '@/data/apiconsumer';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
-
+import Comentario from '@/models/Jogo';
+import ListaJogo from '@/models/JogoLista';
 function Home() {
   const [games, setGames] = useState([]);
   const [search, setsearch] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState("all");
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [selectedRating, setSelectedRating] = useState("all");
+  const [title, setTitle] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [genre, setGenre] = useState("");
+  const [comentarios, setComentarios] = useState([]);
+  const [listaJogo, setListaJogo] = useState([]);
+  const [listaComentarios, setListaComentarios] = useState([]);
   const lowerSearch = search.toLowerCase();
   useEffect(() => {
     const gamesFetch = async () => {
@@ -24,6 +31,8 @@ function Home() {
 
     gamesFetch();
   }, []);
+
+
 
   const filterGames = games.filter((game) => {
     const platformName = game.platforms.map((platform) => platform.platform.name);
@@ -57,6 +66,23 @@ function Home() {
     setSelectedPlatform("all");
     setSelectedGenre("all");
     setSelectedRating("all");
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const novoJogo = new Comentario(title, platform, genre);
+    const novaLista = new ListaJogo();
+    novaLista.adicionarJogo(novoJogo);
+    setListaJogo(novaLista);
+    const novoComentario = new Comentario(title, platform, genre);
+    const novaListaComentarios = new ListaJogo();
+    novaListaComentarios.adicionarJogo(novoComentario);
+    setListaComentarios(novaListaComentarios);
+    const dados = await fetchApi();
+    setGames(dados);
+    setTitle("");
+    setPlatform("");
+    setGenre("");
   }
 
   return (
@@ -117,16 +143,34 @@ function Home() {
         </div>
       </div>
       <div className={styles.containerInputs}>
+      <form onSubmit={handleSubmit}>
+      <div className={styles.containerInputs}>
         <h1>Adicione seu Jogo</h1>
-          <input className={styles.input} type="text" placeholder="Autor" />
-          <input className={styles.input} type="text" placeholder="Nome" />
-          <input className={styles.input} type="text" placeholder="Descrição" />
-          <input className={styles.input} type="text" placeholder="Imagem" /> 
-          <input className={styles.input} type="text" placeholder="Plataforma" />
-          <input className={styles.input} type="text" placeholder="Gênero" />
-          <input className={styles.input} type="text" placeholder="Classificação" />
-          <button className={styles.button}>Adicionar</button>
-        </div>
+        <label htmlFor="title">Título:</label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <label htmlFor="platform">Plataforma:</label>
+        <input
+          type="text"
+          id="platform"
+          value={platform}
+          onChange={(event) => setPlatform(event.target.value)}
+        />
+        <label htmlFor="genre">Gênero:</label>
+        <input
+          type="text"
+          id="genre"
+          value={genre}
+          onChange={(event) => setGenre(event.target.value)}
+        />
+        <button type="submit">Adicionar Jogo</button>
+      </div>
+    </form>
+      </div>
     </main>
   );
 }
