@@ -5,6 +5,7 @@ import fetchApi from '@/data/apiconsumer';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
 import Lista from './sobrenos/page';
+import SobreNos from './sobrenos/page';
 
 
 function Home() {
