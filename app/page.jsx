@@ -7,6 +7,7 @@ import { FiSearch } from 'react-icons/fi';
 import Comentario from '@/models/Jogo';
 import ListaJogo from '@/models/JogoLista';
 import Header from './components/header/header';
+
 function Home() {
   const [games, setGames] = useState([]);
   const [search, setsearch] = useState("");
