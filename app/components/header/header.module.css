@@ -30,3 +30,11 @@
 .hidden {
     display: none;
 }
+.mainContainer{
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    background-color: blue;
+
+}
