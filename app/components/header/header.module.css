@@ -1,0 +1,33 @@
+.logo {
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-left: 6rem;
+    color: #fff;
+}
+.logoclash{
+   margin-left: 40rem;
+   
+}
+.nav {
+    display: flex;
+    align-items: center;
+    background-color: rgb(47, 77, 168);
+    height: 15vh;
+    font-family: arial;
+    border-bottom: #D1D2F0 solid 5px;
+}
+.menu div{
+    width: 32px;
+    height: 2px;
+    background-color: #fff;
+    margin: 8px;
+    margin-left: 3rem;
+}
+.menu{
+    cursor: pointer;
+    display: block;
+}
+.hidden {
+    display: none;
+}
