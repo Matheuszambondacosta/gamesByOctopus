@@ -7,6 +7,7 @@ import { GrGroup } from 'react-icons/gr';
 import { BiSolidHome } from 'react-icons/bi';
 import { GiRetroController } from 'react-icons/gi';
 import { SiLinktree } from 'react-icons/si';
+import Link from 'next/link';
 
 
 
@@ -39,7 +40,9 @@ function Header() {
 
                 </nav>
                 <div className={styles.icons}>
+                    <Link href="/">
                     <BiSolidHome className={styles.icon1} />
+                    </Link>
                     <GrGroup className={styles.icon2} />
                     <GiRetroController className={styles.icon3} />
 

@@ -2,6 +2,7 @@
 import { fetchApiDetails } from '@/data/apiconsumer';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
+import Header from '@/app/components/header/header';
 
 const gameDescription = ({ params }) => {
     const [games, setGames] = useState([]);
@@ -20,6 +21,8 @@ const gameDescription = ({ params }) => {
 
     return (
         <div className={styles.container}>
+            <Header />
+            <div className={styles.maincontainer}>
             <h1>{games.name}</h1>
             <img className={styles.gameThumb} src={games.background_image} alt={games.name} />
             <p className={styles.rating}>{games.rating}</p>
@@ -47,6 +50,7 @@ const gameDescription = ({ params }) => {
                     null
                 )
             }
+            </div>
         </div>
     );
 };
