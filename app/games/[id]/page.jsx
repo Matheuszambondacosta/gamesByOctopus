@@ -17,16 +17,6 @@ const gameDescription = ({ params }) => {
 
         gamesFetch();
     }, []);
-    console.log(games);
-    // const getPlatforms = (platforms) => {
-    //     const platformsStr = platforms
-    //         .map((platform) => platform.platform.name)
-    //         .join(", ");
-    //     if (platformsStr.length > 50) {
-    //         return platformsStr.substring(0, 50) + "...";
-    //     }
-    //     return platformsStr;
-    // };
 
     return (
         <div className={styles.container}>

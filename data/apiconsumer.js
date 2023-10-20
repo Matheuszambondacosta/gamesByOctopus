@@ -25,15 +25,3 @@ export const fetchApiDetails = async (id) => {
     }
 
 }
-
-export const fetchApiGenres = async () => {
-    try {
-        const resposta = await axios.get('https://api.rawg.io/api/genres?key=2014ca8f1ab34906952da5f330744b55');
-        return resposta.data.results;
-    }
-
-    catch (error) {
-        throw error;
-    }
-
-}

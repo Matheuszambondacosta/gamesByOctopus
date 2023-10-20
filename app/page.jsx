@@ -37,18 +37,21 @@ function Home() {
   });
 
   const uniquePlatforms = games
-    .flatMap((game) => game.platforms)
-    .map((platform) => platform.platform.name)
-    .filter((name, index, array) => array.indexOf(name) == index);
+  .flatMap((game) => game.platforms)
+  .map((platform) => platform.platform.name)
+  .filter((name, index, array) => array.indexOf(name) === index)
+  .sort();
 
   const uniqueGenres = games
     .flatMap((game) => game.genres)
     .map((genre) => genre.name)
-    .filter((name, index, array) => array.indexOf(name) == index);
+    .filter((name, index, array) => array.indexOf(name) == index)
+    .sort();
 
   const uniqueRatings = games
     .map((game) => game.rating)
-    .filter((name, index, array) => array.indexOf(name) == index);
+    .filter((name, index, array) => array.indexOf(name) == index)
+    .sort();
 
   const clearFilters = () => {
     setSelectedPlatform("all");
