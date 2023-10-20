@@ -1,40 +1,60 @@
 .logo {
     font-size: 25px;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    margin-left: 6rem;
+    text-transform: uppercase; 
     color: #fff;
 }
 .menu{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+.menu1{
+    margin: auto;
+}
 .nav {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: black;
-    height: 15vh;
     font-family: arial;
-    border-bottom: #D1D2F0 solid 5px;
-}
-.menu div{
-    width: 32px;
-    height: 2px;
-    background-color: #fff;
-    margin: 8px;
-    margin-left: 3rem;
+    border-bottom: black solid 5px;
 }
 .menu{
     cursor: pointer;
-    display: block;
 }
 .hidden {
     display: none;
 }
 .mainContainer{
     position: fixed;
-    right: 0;
+    left: 0;
     top: 0;
     height: 100vh;
-    background-color: blue;
+    background-color: white;
+}
+.icons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 110px;
+    
 
 }
+
+.icon1 {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    color: #000;
+}
+
+.icon2 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    color: #000;
+}
+.icon3 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    color: #000;
+}
+

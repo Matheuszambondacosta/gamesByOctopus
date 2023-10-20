@@ -3,10 +3,13 @@
 import styles from './header.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
+import { GrGroup } from 'react-icons/gr';
+import { BiSolidHome } from 'react-icons/bi';
+import { GiRetroController } from 'react-icons/gi';
 
 
 
- function Header() {
+function Header() {
 
 
     const [type, setType] = useState('');
@@ -19,19 +22,30 @@ import { useState } from 'react';
             setType('');
         }
     }
-    
+
 
     return (
-        <header className={styles.mainContainer}>
-            <nav className={styles.nav}>
+        <div>
+            <header className={styles.mainContainer}>
+                <nav className={styles.nav}>
 
-                <div onClick={teste} className={styles.menu}>
-                <Image className={styles.logoclash} src={'/'} alt="akfadfa" width={240} height={100}></Image>
+                    <div onClick={teste} className={styles.menu}>
+                        <div className={styles.menu1}>
+                            <Image className={styles.logoclash} src={'/OctopusLogo.png'} alt="akfadfa" width={120} height={120}></Image>
+                        </div>
+                    </div>
+
+                </nav>
+                <div className={styles.icons}>
+                    <BiSolidHome className={styles.icon1} />
+                    <GrGroup className={styles.icon2} />
+                    <GiRetroController className={styles.icon3} />
+
                 </div>
-                
-            </nav>
 
-        </header>
+
+            </header>
+        </div>
     );
 }
 
