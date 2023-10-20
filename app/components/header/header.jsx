@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { GrGroup } from 'react-icons/gr';
 import { BiSolidHome } from 'react-icons/bi';
 import { GiRetroController } from 'react-icons/gi';
+import { SiLinktree } from 'react-icons/si';
+
 
 
 
@@ -41,6 +43,10 @@ function Header() {
                     <GrGroup className={styles.icon2} />
                     <GiRetroController className={styles.icon3} />
 
+                </div>
+
+                <div>
+                <SiLinktree />
                 </div>
 
 
