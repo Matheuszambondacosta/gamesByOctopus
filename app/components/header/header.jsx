@@ -43,7 +43,10 @@ function Header() {
                     <Link href="/">
                     <BiSolidHome className={styles.icon1} />
                     </Link>
+                    <Link href="/sobrenos">
                     <GrGroup className={styles.icon2} />
+                    </Link>
+
                     <GiRetroController className={styles.icon3} />
 
                     <div className={styles.icons1}>
