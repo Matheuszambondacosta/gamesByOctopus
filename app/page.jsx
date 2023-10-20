@@ -6,6 +6,7 @@ import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
 import Comentario from '@/models/Jogo';
 import ListaJogo from '@/models/JogoLista';
+import Header from './components/header/header';
 function Home() {
   const [games, setGames] = useState([]);
   const [search, setsearch] = useState("");
@@ -87,6 +88,7 @@ function Home() {
 
   return (
     <main className={styles.main}>
+      <Header />
       <div className={styles.container}>
         <h1>Games</h1>
         <div className={styles.divinput}>

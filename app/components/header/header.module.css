@@ -9,6 +9,10 @@
 .menu1{
     margin: auto;
 }
+.logoOctopus{
+    width: 7rem;
+    height: 6rem;
+}
 .nav {
     display: flex;
     flex-direction: column;
@@ -26,6 +30,7 @@
     position: fixed;
     left: 0;
     top: 0;
+    width: 5%;
     height: 100vh;
     background-color: white;
 }
