@@ -103,6 +103,8 @@ function Home() {
         <GameList filterGames={filterGames} />
       </div>
     </div>
+    <div className={styles.containerInputs}>
+    </div>
     </main>
   );
 }
