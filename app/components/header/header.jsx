@@ -31,7 +31,7 @@ function Header() {
 
                     <div onClick={teste} className={styles.menu}>
                         <div className={styles.menu1}>
-                            <Image className={styles.logoclash} src={'/OctopusLogo.png'} alt="akfadfa" width={120} height={120}></Image>
+                            <Image className={styles.logoOctopus} src={'/OctopusLogo.png'} alt="akfadfa" width={120} height={120}></Image>
                         </div>
                     </div>
 
