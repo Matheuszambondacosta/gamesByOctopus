@@ -101,37 +101,37 @@ function Home() {
           />
           <FiSearch />
         </div>
-        <h2>Filtre pela plataforma:</h2>
+        
         <select
           className={styles.select}
           value={selectedPlatform}
           onChange={(ev) => setSelectedPlatform(ev.target.value)}
         >
-          <option value="all">Todas</option>
+          <option value="all">Filtre pela plataforma:</option>
           {uniquePlatforms.map((name) => (
             <option value={name}>{name}</option>
           ))}
         </select>
 
-        <h2>Ordenar por gênero:</h2>
+  
         <select
           className={styles.select}
           value={selectedGenre}
           onChange={(ev) => setSelectedGenre(ev.target.value)}
         >
-          <option value="all">Todas</option>
+          <option value="all">Ordenar por gênero:</option>
           {uniqueGenres.map((name) => (
             <option value={name}>{name}</option>
           ))}
         </select>
 
-        <h2>Ordenar por classificação:</h2>
+       
         <select
           className={styles.select}
           value={selectedRating}
           onChange={(ev) => setSelectedRating(ev.target.value)}
         >
-          <option value="all">Todas</option>
+          <option value="all">Ordenar por classificação:</option>
           {uniqueRatings.map((name) => (
             <option value={name}>{name}</option>
           ))}
