@@ -40,22 +40,24 @@ function Header() {
 
                 </nav>
                 <div className={styles.icons}>
-                    <Link href="/">
-                    <BiSolidHome className={styles.icon1} />
+                    <Link className={styles.home} href="/">
+                        <BiSolidHome className={styles.icon1} />
+                        <p className={styles.textHome}>Home</p>
                     </Link>
-                    <Link href="/sobrenos">
-                    <GrGroup className={styles.icon2} />
+                    <Link className={styles.sobrenos} href="/sobrenos">
+                        <GrGroup className={styles.icon2} />
+                        <p className={styles.textSobreNos}>SobreNós</p>
                     </Link>
 
                     <GiRetroController className={styles.icon3} />
 
                     <div className={styles.icons1}>
-                <SiLinktree className={styles.icon4} />
-                </div>
+                        <SiLinktree className={styles.icon4} />
+                    </div>
 
                 </div>
 
-           
+
 
 
             </header>
