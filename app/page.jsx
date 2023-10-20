@@ -117,7 +117,16 @@ function Home() {
         </div>
       </div>
       <div className={styles.containerInputs}>
-      </div>
+        <h1>Adicione seu Jogo</h1>
+          <input className={styles.input} type="text" placeholder="Autor" />
+          <input className={styles.input} type="text" placeholder="Nome" />
+          <input className={styles.input} type="text" placeholder="Descrição" />
+          <input className={styles.input} type="text" placeholder="Imagem" /> 
+          <input className={styles.input} type="text" placeholder="Plataforma" />
+          <input className={styles.input} type="text" placeholder="Gênero" />
+          <input className={styles.input} type="text" placeholder="Classificação" />
+          <button className={styles.button}>Adicionar</button>
+        </div>
     </main>
   );
 }
