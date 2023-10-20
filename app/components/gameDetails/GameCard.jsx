@@ -5,17 +5,17 @@ import { BiSolidEditAlt } from 'react-icons/bi';
 import Link from 'next/link';
 
 const GameCard = ({ game }) => {
-    const getPlatforms = (platforms) => {
-        const platformsStr = platforms
-          .map((platform) => platform.platform.name)
-          .join(", ");
-        if (platformsStr.length > 50) {
-          return platformsStr.substring(0, 50) + "...";
-        }
-        return platformsStr;
-      };
+  const getPlatforms = (platforms) => {
+    const platformsStr = platforms
+      .map((platform) => platform.platform.name)
+      .join(", ");
+    if (platformsStr.length > 50) {
+      return platformsStr.substring(0, 50) + "...";
+    }
+    return platformsStr;
+  };
 
-    return (
+  return (
     <div className={styles.card}>
       <img className={styles.gameThumb} src={game.background_image} alt={game.name} />
       <div className={styles.cardInfo}>
@@ -33,9 +33,9 @@ const GameCard = ({ game }) => {
         <button className={styles.button}>
           <BiSolidEditAlt />
         </button>
+      </div>
     </div>
-    </div>
-    );
-    }
+  );
+}
 
 export default GameCard;

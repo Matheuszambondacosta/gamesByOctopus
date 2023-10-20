@@ -1,17 +1,62 @@
 "use client";
+import { fetchApiDetails } from '@/data/apiconsumer';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
-const gameDescription = ({params}) => {
+const gameDescription = ({ params }) => {
+    const [games, setGames] = useState([]);
+    useEffect(() => {
+        const gamesFetch = async () => {
+            try {
+                const dados = await fetchApiDetails(params.id);
+                setGames(dados);
+            } catch (error) {
+                throw error;
+            }
+        };
+
+        gamesFetch();
+    }, []);
+    console.log(games);
+    // const getPlatforms = (platforms) => {
+    //     const platformsStr = platforms
+    //         .map((platform) => platform.platform.name)
+    //         .join(", ");
+    //     if (platformsStr.length > 50) {
+    //         return platformsStr.substring(0, 50) + "...";
+    //     }
+    //     return platformsStr;
+    // };
+
     return (
         <div className={styles.container}>
-            <h1>{params.id}</h1>
-            <p>Imagem do jogo</p>
-            {/* <img src={} alt={}></img>  */}
-            <p>Plataformas, plataformas, plataformas</p>
-            <p>Descrição do jogo</p>
-            <p>avaliação do jogo</p>
-            <p>genero do jogo</p>
-            <p>data de lançamento</p>
+            <h1>{games.name}</h1>
+            <img className={styles.gameThumb} src={games.background_image} alt={games.name} />
+            <p className={styles.rating}>{games.rating}</p>
+            <p className={styles.released}>{games.released}</p>
+            <p className={styles.description}>{games.description_raw}</p>
+            {
+                games.genres ? (
+                    games.genres.map((genre) => {
+                        return (
+                            <p className={styles.genres}>{genre.name}</p>
+                        )
+                    })
+                ) : (
+                    null
+                )
+            }
+            {
+                games.parent_platforms ? (
+                    games.parent_platforms.map((platform) => {
+                        return (
+                            <p className={styles.platforms}>{platform.platform.name}</p>
+                        )
+                    })
+                ) : (
+                    null
+                )
+            }
         </div>
     );
 };
