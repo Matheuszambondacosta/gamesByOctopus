@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import fetchApi from '@/data/apiconsumer';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
+import Header from './components/header/header';
 
 function Home() {
     const [games, setGames] = useState([]);
@@ -43,7 +44,9 @@ function Home() {
     }
 
     return (
+      
       <main className={styles.main}>
+        <Header />
         <div className={styles.container}>
       <h1>Games</h1>
       <div className={styles.divinput}>

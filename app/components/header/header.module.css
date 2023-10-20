@@ -5,14 +5,13 @@
     margin-left: 6rem;
     color: #fff;
 }
-.logoclash{
-   margin-left: 40rem;
-   
+.menu{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .nav {
     display: flex;
     align-items: center;
-    background-color: rgb(47, 77, 168);
+    background-color: black;
     height: 15vh;
     font-family: arial;
     border-bottom: #D1D2F0 solid 5px;
