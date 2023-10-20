@@ -1,10 +1,10 @@
 "use client";
 import styles from './page.module.css';
 
-const gameDescription = () => {
+const gameDescription = ({params}) => {
     return (
         <div className={styles.container}>
-            <h1>Nome do Jogo</h1>
+            <h1>{params.id}</h1>
             <p>Imagem do jogo</p>
             {/* <img src={} alt={}></img>  */}
             <p>Plataformas, plataformas, plataformas</p>

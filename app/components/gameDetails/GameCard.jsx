@@ -24,7 +24,7 @@ const GameCard = ({ game }) => {
         <p className={styles.released}>{game.released}</p>
         <p className={styles.genres}>{game.genres.map((genre) => genre.name).join(", ")}</p>
         <p className={styles.platforms}>{getPlatforms(game.parent_platforms)}</p>
-        <Link className={styles.seeMore} href={`/game/${game.id}`}>Veja Mais</Link>
+        <Link className={styles.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
       </div>
       <div className={styles.contaierbuttons}>
         <button className={styles.button}>
