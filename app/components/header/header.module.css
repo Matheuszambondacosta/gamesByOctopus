@@ -74,29 +74,3 @@
 
     
 }
-
-.textHome {
-    display: none;
-    position: relative;
-    top: 0;
-}
-
-.home:hover {
-    display: flex;
-    flex-direction: column;
-    .textHome {
-        display: inline-block;
-    }
-}
-.sobrenos:hover {
-    display: flex;
-    flex-direction: column;
-    .textSobreNos{
-        display: inline-block;
-    }
-}
-.textSobreNos{
-    display: none;
-    position: relative;
-    top: 0;
-}

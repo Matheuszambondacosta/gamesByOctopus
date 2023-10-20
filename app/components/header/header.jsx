@@ -42,11 +42,11 @@ function Header() {
                 <div className={styles.icons}>
                     <Link className={styles.home} href="/">
                         <BiSolidHome className={styles.icon1} />
-                        <p className={styles.textHome}>Home</p>
+                        
                     </Link>
                     <Link className={styles.sobrenos} href="/sobrenos">
                         <GrGroup className={styles.icon2} />
-                        <p className={styles.textSobreNos}>SobreNós</p>
+                        
                     </Link>
 
                     <GiRetroController className={styles.icon3} />
