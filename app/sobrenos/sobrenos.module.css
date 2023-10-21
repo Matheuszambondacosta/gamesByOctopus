@@ -1,0 +1,44 @@
+.main1{
+  background-color: #303030;
+}
+
+.titulo{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.container{
+  margin-top: 20px;
+}
+
+.divisao{
+
+  margin-top: 70px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+ 
+}
+
+.card{
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  height: 490px;
+  background-color:black;
+  color: white;
+  box-shadow: 0 0 20px rgba(122, 123, 132, 0.5);
+  cursor: pointer;
+}
+
+.img{
+  margin-top: 10px;
+  border-radius: 100%;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+.text1 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  text-align: left;
+}
