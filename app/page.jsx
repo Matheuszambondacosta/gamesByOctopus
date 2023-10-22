@@ -1,99 +1,95 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import { fetchApi } from '@/data/apiconsumer';
+import { fetchAsyncGames } from '@/data/gamedata';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
-import Comentario from '@/models/Jogo';
-import ListaJogo from '@/models/JogoLista';
-import Header from './components/header/header';
+import Header from '@/app/components/header/header';
+import { fetchApi } from '@/data/apiconsumer';
+const itemsPerPage = 10;
 
 function Home() {
   const [games, setGames] = useState([]);
-  const [search, setsearch] = useState("");
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [selectedPlatform, setSelectedPlatform] = useState("all");
-  const [selectedGenre, setSelectedGenre] = useState("all");
-  const [selectedRating, setSelectedRating] = useState("all");
-  const [title, setTitle] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [genre, setGenre] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState('all');
+  const [selectedGenre, setSelectedGenre] = useState('all');
+  const [selectedRating, setSelectedRating] = useState('all');
+  const [title, setTitle] = useState('');
+  const [platform, setPlatform] = useState('');
+  const [genre, setGenre] = useState('');
   const lowerSearch = search.toLowerCase();
+  const [allGames, setAllGames] = useState([]);
+
   useEffect(() => {
-    const gamesFetch = async () => {
+    const fetchAllGames = async () => {
       try {
-        const dados = await fetchApi(page);
-        setGames(dados);
+        let allGameData = [];
+        let currentPage = 1;
+        while (allGameData.length < 500) {
+          const response = await fetchAsyncGames(currentPage);
+          allGameData = [...allGameData, ...response.results];
+          currentPage++;
+        }
+        setAllGames(allGameData);
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const visibleGames = allGameData.slice(startIndex, endIndex);
+        setGames(visibleGames);
       } catch (error) {
-        throw error;
+        console.log(error);
       }
     };
+  
+    fetchAllGames();
+  }, []);
+  const handleSearch = () => {
+    const filteredGames = allGames.filter((game) => {
+      const gameName = game.name.toLowerCase();
+      return gameName.includes(lowerSearch);
+    });
+    setGames(filteredGames);
+  };
 
-    gamesFetch();
-  }, [page]);
+  const filteredGames = () => {
+    const filters = games.filter((game) => {
+      const platformName = game.platforms.map((platform) => platform.platform.name);
+      const gameGenres = game.genres.map((genre) => genre.name);
+      const platformFilter = selectedPlatform === 'all' || platformName.includes(selectedPlatform);
+      const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
+      const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
+      return platformFilter && genreFilter && ratingFilter;
+    });
+    setGames(filters);
+  };
 
   const nextPage = () => {
     const newPage = page + 1;
     setPage(newPage);
-    gamesFetch(newPage);
+    const startIndex = (newPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const visibleGames = allGames.slice(startIndex, endIndex);
+    setGames(visibleGames);
   };
-
+  
   const previousPage = () => {
-    const newPage = page - 1;
-    setPage(newPage);
-    gamesFetch(newPage);
+    if (page > 1) {
+      const newPage = page - 1;
+      setPage(newPage);
+      const startIndex = (newPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const visibleGames = allGames.slice(startIndex, endIndex);
+      setGames(visibleGames);
+    }
   };
-
-    const filterGames = games.filter((game) => {
-    const platformName = game.platforms.map((platform) => platform.platform.name);
-    const gameGenres = game.genres.map((genre) => genre.name);
-    const platformFilter = selectedPlatform == "all" || platformName.includes(selectedPlatform);
-    const genreFilter = selectedGenre == "all" || gameGenres.includes(selectedGenre);
-    const ratingFilter = selectedRating == "all" || game.rating == selectedRating;
-    const gameName = game.name.toLowerCase();
-
-    return platformFilter && genreFilter && ratingFilter && gameName.includes(lowerSearch);
-  });
-
-  const uniquePlatforms = games
-  .flatMap((game) => game.platforms)
-  .map((platform) => platform.platform.name)
-  .filter((name, index, array) => array.indexOf(name) === index)
-  .sort();
-
-  const uniqueGenres = games
-    .flatMap((game) => game.genres)
-    .map((genre) => genre.name)
-    .filter((name, index, array) => array.indexOf(name) == index)
-    .sort();
-
-  const uniqueRatings = games
-    .map((game) => game.rating)
-    .filter((name, index, array) => array.indexOf(name) == index)
-    .sort();
+  
 
   const clearFilters = () => {
-    setSelectedPlatform("all");
-    setSelectedGenre("all");
-    setSelectedRating("all");
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const novoJogo = new Comentario(title, platform, genre);
-    const novaLista = new ListaJogo();
-    novaLista.adicionarJogo(novoJogo);
-    setListaJogo(novaLista);
-    const novoComentario = new Comentario(title, platform, genre);
-    const novaListaComentarios = new ListaJogo();
-    novaListaComentarios.adicionarJogo(novoComentario);
-    setListaComentarios(novaListaComentarios);
-    const dados = await fetchApi();
-    setGames(dados);
-    setTitle("");
-    setPlatform("");
-    setGenre("");
-  }
+    setSelectedPlatform('all');
+    setSelectedGenre('all');
+    setSelectedRating('all');
+    setGames(allGames);
+  };
 
   return (
     <main className={styles.main}>
@@ -102,64 +98,54 @@ function Home() {
         <h1>Games</h1>
         <div className={styles.divinput}>
           <input
-            className={styles.searchInput}
+            className={styles.searchInput} 
             type="text"
-            placeholder="Pesquisar"
+            placeholder="Pesquise um jogo"
             value={search}
-            onChange={(ev) => setsearch(ev.target.value)}
+            onChange={(ev) => setSearch(ev.target.value)}
           />
-          <FiSearch />
+          <FiSearch onClick={handleSearch} />
         </div>
-        
         <select
           className={styles.select}
           value={selectedPlatform}
           onChange={(ev) => setSelectedPlatform(ev.target.value)}
         >
           <option value="all">Filtre pela plataforma:</option>
-          {uniquePlatforms.map((name) => (
-            <option value={name}>{name}</option>
-          ))}
-        </select>
+          {
 
-  
+          }
+        </select>
         <select
           className={styles.select}
           value={selectedGenre}
           onChange={(ev) => setSelectedGenre(ev.target.value)}
         >
           <option value="all">Ordenar por gênero:</option>
-          {uniqueGenres.map((name) => (
-            <option value={name}>{name}</option>
-          ))}
+          {/* Opções de gênero */}
         </select>
-
-       
         <select
           className={styles.select}
           value={selectedRating}
           onChange={(ev) => setSelectedRating(ev.target.value)}
         >
           <option value="all">Ordenar por classificação:</option>
-          {uniqueRatings.map((name) => (
-            <option value={name}>{name}</option>
-          ))}
+          {/* Opções de classificação */}
         </select>
-
         <button className={styles.button} onClick={clearFilters}>
           Redefinir Filtros
         </button>
         <div className={styles.containerGames}>
-          <GameList filterGames={filterGames} />
+          <GameList filterGames={games} />
         </div>
       </div>
       <div className={styles.pagesbuttons}>
-      <button className={styles.button} onClick={previousPage}>
-        Página anterior
-      </button>
-      <button className={styles.button} onClick={nextPage}>
-        Próxima página
-      </button>
+        <button className={styles.button} onClick={previousPage}>
+          Página anterior
+        </button>
+        <button className={styles.button} onClick={nextPage}>
+          Próxima página
+        </button>
       </div>
       <div className={styles.containerInputs}>
         <h1>Adicione seu Jogo</h1>
