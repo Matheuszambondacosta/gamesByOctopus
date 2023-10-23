@@ -57,6 +57,8 @@ function Home() {
     setDescription('');
   }
 
+  
+
   const removeGames = (game) => {
     gamelist.removeGame(game);
     setNewGameList(gamelist.getGames());
