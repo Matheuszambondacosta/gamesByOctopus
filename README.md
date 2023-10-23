@@ -82,4 +82,4 @@ Esta API foi projetada para ser modular e fácil de usar. Ela fornece uma base s
 - Isabela Oliveira;
 - João Victor Oliveira;
 - Matheus Zambon;
-- Nicoly Val.
+- Nicoly Val;

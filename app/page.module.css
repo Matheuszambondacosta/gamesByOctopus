@@ -7,10 +7,7 @@
     height: 100vh;
     height: 100%;
 } 
-.containerInputs{
-  display: none;
 
-}
 .pagesbuttons{
   display: flex;
   justify-content: center;
@@ -65,4 +62,58 @@
     cursor: pointer;
     margin: 1rem 0;
   }
+  
+/* Estilos gerais para o container */
+.containerInputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Estilos para os títulos */
+.containerInputs h1 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* Estilos para os inputs de texto */
+.containerInputs input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Estilos para o input de data */
+.containerInputs input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+
+/* Estilos para o botão */
+.containerInputs button {
+  background-color: #0077FF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.containerInputs button:hover {
+  background-color: #0055CC;
+}
+
+
   

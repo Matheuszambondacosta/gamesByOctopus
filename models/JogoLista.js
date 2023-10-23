@@ -1,62 +1,53 @@
-import Comentario from "./Jogo.js"
+import NewGame from "./Jogo";
 
-export default class ListaJogo {
+export default class NewGameList {
   constructor() {
-    this.historico = [];
+    this.games = [];
   }
 
-  addComentario(imageURL, usuario, nome, descricao, nota, dataLancamento, plataformas) {
-    const novoComentario = new Comentario(imageURL, usuario, nome, descricao, nota, dataLancamento, plataformas);
-
-    console.log("Foi chamado pelo front");
-    console.log(novoComentario);
-
-    this.historico.push(novoComentario);
-
-    this.atualizarValores();
+  addNewGame(nome, plataforma, genero, dataLancamento, imagem, descricao) {
+    const novoNewGame = new NewGame(nome, plataforma, genero, dataLancamento, imagem, descricao);
+    this.games.push(novoNewGame);
+    this.updateValues();
   }
 
-  getHistorico() {
-    return this.historico;
+  removeGame(game) {
+    this.games = this.games.filter(item => item.uuid !== game.uuid);
   }
 
-  getComentarioPorId(id) {
-    const comentario = this.historico.find((comentario) => comentario.id == id);
-
-    return comentario;
+  getGames() {
+    return this.games;
   }
 
-  atualizarComentario(id, imageURL, usuario, nome, descricao, nota, dataLancamento, plataformas) {
-    const comentario = this.getComentarioPorId(id);
+  getNewGamePorId(id) {
+    return this.games.find(game => game.id === id);
+  }
 
-    if (comentario) {
-      comentario.imageURL = imageURL;
-      comentario.usuario = usuario;
-      comentario.nome = nome;
-      comentario.descricao = descricao;
-      comentario.nota = nota;
-      comentario.dataLancamento = dataLancamento;
-      comentario.plataformas = plataformas;
+  updateValues() {
+    this.games.forEach((game) => {
+      game.id = this.generateId();
+    });
+  }
+
+  updateNewGame(id, nome, plataforma, genero, dataLancamento, imagem, descricao) {
+    const NewGame = this.getNewGamePorId(id);
+
+    if (NewGame) {
+      NewGame.nome = nome;
+      NewGame.plataforma = plataforma;
+      NewGame.genero = genero;
+      NewGame.dataLancamento = dataLancamento;
+      NewGame.imagem = imagem;
+      NewGame.descricao = descricao;
     }
-
-    this.atualizarValores();
-
-    return comentario;
   }
 
-  excluirComment(id) {
-    this.historico = this.historico.filter((comentario) => comentario.id != id);
-
-    this.atualizarValores();
-  }
-
-  atualizarValores() {
-    this.imageURL = '';
-    this.usuario = '';
-    this.nome = '';
-    this.descricao = '';
-    this.nota = '';
-    this.dataLancamento = '';
-    this.plataformas = '';
+  removeNewGame(id) {
+    const NewGame = this.getNewGamePorId(id);
+    const index = this.games.indexOf(NewGame);
+    
+    if (index !== -1) {
+      this.games.splice(index, 1);
+    }
   }
 }

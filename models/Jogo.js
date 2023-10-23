@@ -1,12 +1,11 @@
-export default class Comentario {
-    constructor( imageURL, usuario, nome, descricao, nota, dataLancamento, plataformas) {
-        this.imageURL = imageURL;
-        this.usuario = usuario;
+export default class NewGame {
+    constructor(nome, plataforma, genero, dataLancamento, imagem, descricao) {
         this.nome = nome;
+        this.plataforma = plataforma;
+        this.genero = genero;
+        this.dataLancamento = dataLancamento;
+        this.imagem = imagem;
         this.descricao = descricao;
-        this.nota = nota;
-        this.dataLancamento = this.formatedData(dataLancamento);
-        this.plataformas = plataformas;
         this.id = this.generateId();
     }
 
@@ -14,7 +13,7 @@ export default class Comentario {
         return `${this.imageURL}${this.usuario}${this.nome}${this.descricao}${this.nota}${this.dataLancamento}${this.plataformas}`;
     }
     generateId() {
-        return Math.floor(Math.random() * 1000);
+        return Math.floor(Math.random() * 100000);
     }
     formatedData(data) {
         const dataSplit = data.split('-');
