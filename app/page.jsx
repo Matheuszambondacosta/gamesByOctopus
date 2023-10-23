@@ -15,6 +15,10 @@ import Link from 'next/link';
 const itemsPerPage = 10;
 const gamelist = new NewGameList();
 function Home() {
+  const [flag, setFlag] = useState(0);
+  const[editbtn, setEditbtn] = useState(false);
+  const [divGames, setDivGames] = useState(true);
+  const [divInput, setDivInput] = useState(false);
   const [newGameList, setNewGameList] = useState(gamelist.getGames());
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState('');
@@ -30,7 +34,7 @@ function Home() {
   const [description, setDescription] = useState('');
   const lowerSearch = search.toLowerCase();
   const [allGames, setAllGames] = useState([]);
-  const [jesus, setJesus] = useState([]);
+  const [HolyGames, setHolyGames] = useState([]);
 
 
   const handleSearch = () => {
@@ -62,7 +66,7 @@ function Home() {
     console.log(id);
     gamelist.removeGame(id);
     setNewGameList(gamelist.getGames());
-    setJesus(gamelist.getGames());
+    setHolyGames(gamelist.getGames());
   }
   useEffect(() => {
     const fetchAllGames = async () => {
@@ -80,7 +84,7 @@ function Home() {
         const visibleGames = allGameData.slice(startIndex, endIndex);
         setGames(visibleGames);
         gamelist.demonMethod(allGameData);
-        setJesus(gamelist.getGames())
+        setHolyGames(gamelist.getGames())
       } catch (error) {
         console.log(error);
       }
@@ -150,6 +154,11 @@ function Home() {
       setGames(visibleGames);
     }
   };
+  const changeDisplay = () => {
+    setDivGames(!divGames);
+    setDivInput(!divInput);
+  }
+    
 
 
   const clearFilters = () => {
@@ -158,6 +167,38 @@ function Home() {
     setSelectedRating('all');
     setGames(allGames);
   };
+  const clearInfos = () => {
+    setTitle('');
+    setPlatform('');
+    setGenre('');
+    setDate('');
+    setImage('');
+    setDescription('');
+  }
+
+
+  const updateGame = () => {
+    gamelist.updateGame(flag, title, platform, genre, date, image, description);
+    setNewGameList(gamelist.getGames());
+    setHolyGames(gamelist.getGames());
+    setEditbtn(false);
+    clearInfos();
+    changeDisplay();
+  }
+
+
+  const editGame = (id) => {
+    const game = gamelist.getNewGamePorId(id);
+    setTitle(game.nome);
+    setPlatform(game.plataforma);
+    setGenre(game.generos);
+    setDate(game.dataLancamento);
+    setImage(game.imagem);
+    setDescription(game.descricao);
+    setEditbtn(true);
+    setFlag(id);
+  }
+
 
   return (
     <main className={styles.main}>
@@ -208,8 +249,8 @@ function Home() {
         </button>
         <div className={styles.containerGames}>
           {
-            jesus && jesus.length > 0 ? (
-              jesus.map((game) =>
+            HolyGames && HolyGames.length > 0 ? (
+              HolyGames.map((game) =>
               <div key={game.id} className={styles2.card}>
                 <div className={styles2.imgcards}>
                 <img className={styles2.gameThumb} src={game.background_image} alt={game.name} />
