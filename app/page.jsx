@@ -26,10 +26,10 @@ function Home() {
       try {
         let allGameData = [];
         let currentPage = 1;
-        while (allGameData.length < 500) {
+        while (allGameData.length < 6000) {
           const response = await fetchAsyncGames(currentPage);
           allGameData = [...allGameData, ...response.results];
-          currentPage++;
+          currentPage++;    
         }
         setAllGames(allGameData);
         const startIndex = (page - 1) * itemsPerPage;
