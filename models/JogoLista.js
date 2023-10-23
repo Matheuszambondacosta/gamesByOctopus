@@ -5,14 +5,14 @@ export default class NewGameList {
     this.games = [];
   }
 
-  addNewGame(nome, plataforma, genero, dataLancamento, imagem, descricao) {
-    const novoNewGame = new NewGame(nome, plataforma, genero, dataLancamento, imagem, descricao);
-    this.games.push(novoNewGame);
+  addNewGame(newGame) {
+    this.games.push(newGame);
     this.updateValues();
   }
 
-  removeGame(game) {
-    this.games = this.games.filter(item => item.uuid !== game.uuid);
+  removeGame(id) {
+    this.games = this.games.filter(game => game.id !== id);
+    this.updateValues();
   }
 
   getGames() {
@@ -21,12 +21,6 @@ export default class NewGameList {
 
   getNewGamePorId(id) {
     return this.games.find(game => game.id === id);
-  }
-
-  updateValues() {
-    this.games.forEach((game) => {
-      game.id = this.generateId();
-    });
   }
 
   updateNewGame(id, nome, plataforma, genero, dataLancamento, imagem, descricao) {
@@ -41,13 +35,9 @@ export default class NewGameList {
       NewGame.descricao = descricao;
     }
   }
-
-  removeNewGame(id) {
-    const NewGame = this.getNewGamePorId(id);
-    const index = this.games.indexOf(NewGame);
-    
-    if (index !== -1) {
-      this.games.splice(index, 1);
-    }
+  updateValues() {
+    this.totalGames = this.games.length;
+    this.totalGamesRead = this.games.filter(game => game.lido).length;
+    this.totalGamesNotRead = this.games.filter(game => !game.lido).length;
   }
 }

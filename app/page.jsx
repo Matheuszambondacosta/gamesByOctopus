@@ -1,16 +1,21 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
+import styles2 from './components/gameDetails/GameCard.module.css';
 import { fetchAsyncGames } from '@/data/gamedata';
 import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
 import Header from '@/app/components/header/header';
 import NewGame from '@/models/Jogo';
 import NewGameList from '@/models/JogoLista';
-const itemsPerPage = 12;
+import { BsTrashFill } from 'react-icons/bs';
+import { BiSolidEditAlt } from 'react-icons/bi';
+import Link from 'next/link';
+
+const itemsPerPage = 10;
 const gamelist = new NewGameList();
 function Home() {
-  const [newGameList, setNewGameList] = useState([]);
+  const [newGameList, setNewGameList] = useState(gamelist.getGames());
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -37,13 +42,13 @@ function Home() {
 
   const submitGame = () => {
     const newGame = new NewGame(title, platform, genre, date, image, description);
-    if(!newGameList.some((game) => game.title === newGame.title)){
+    if (!newGameList.some((game) => game.title === newGame.title)) {
       const updatedGame = [...newGameList, newGame];
       setNewGameList(updatedGame);
-
     }
-    gamelist.addGame(newGame);
-    console.log(gamelist);
+    gamelist.addNewGame(newGame);
+    setNewGameList(gamelist.getGames());
+
     setTitle('');
     setPlatform('');
     setGenre('');
@@ -80,9 +85,9 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if(games && games.data){
+    if (games && games.data) {
       games.data.forEach((gamedata) => {
-        const newGames = newGame(
+        const newGames = newGames(
           gamedata.name,
           gamedata.platform,
           gamedata.genre,
@@ -91,12 +96,14 @@ function Home() {
           gamedata.description
         );
         gamelist.addGame(newGames);
-       });
-      const updatedNewGames = [...newGameList, gamelist.getGames()];	  
+      });
+      const updatedNewGames = [...newGameList, gamelist.getGames()];
       setNewGameList(updatedNewGames);
 
     }
   }, [games]);
+
+
   const filteredGames = () => {
     const filters = games.filter((game) => {
       const platformName = game.platforms.map((platform) => platform.platform.name);
@@ -117,6 +124,7 @@ function Home() {
     const visibleGames = allGames.slice(startIndex, endIndex);
     setGames(visibleGames);
   };
+
 
   const previousPage = () => {
     if (page > 1) {
@@ -158,9 +166,9 @@ function Home() {
           onChange={(ev) => setSelectedPlatform(ev.target.value)}
         >
           <option value="all">Filtre pela plataforma:</option>
-          {
-
-          }
+          {/* {uniquePlatforms.map((name) => (
+            <option value={name}>{name}</option>
+          ))} */}
         </select>
         <select
           className={styles.select}
@@ -168,7 +176,10 @@ function Home() {
           onChange={(ev) => setSelectedGenre(ev.target.value)}
         >
           <option value="all">Ordenar por gênero:</option>
-          {/* Opções de gênero */}
+          {
+            // Opções de gênero
+
+          }
         </select>
         <select
           className={styles.select}
@@ -185,6 +196,38 @@ function Home() {
           <GameList filterGames={games} />
         </div>
       </div>
+      <div>
+        {
+          newGameList && newGameList.length > 0 ? (
+            newGameList.map((game) => (
+              <div className={styles2.card} key={game.id}>
+                <div className={styles2.imgcards}>
+                  <img className={styles2.gameThumb} src={game.imagem} alt={game.nome} />
+                  <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
+                </div>
+                <div className={styles2.cardInfo}>
+                  <h2 className={styles2.title}>{game.nome}</h2>
+                  <p className={styles2.released}>{game.dataLancamento}</p>
+                  <p className={styles2.genres}>{game.generos}</p>
+                  <p className={styles2.platforms}>{game.plataforma}</p>
+                </div>
+                <div className={styles2.contaierbuttons}>
+                  <button className={styles2.button}>
+                    <BsTrashFill onClick={() => removeGames(game.id)}/>
+                  </button>
+                  <button className={styles2.button}>
+                    <BiSolidEditAlt />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>
+              <p>Não há jogos adicionados</p>
+            </div>
+          )
+        }
+      </div>
       <div className={styles.pagesbuttons}>
         <button className={styles.button} onClick={previousPage}>
           Página anterior
@@ -196,15 +239,32 @@ function Home() {
 
       <div className={styles.containerInputs}>
         <h1>Nome do Jogo</h1>
-        <input className={styles.nameinput} type="text" />
+        <input className={styles.nameinput} type="text"
+          value={title}
+          onChange={(ev) => setTitle(ev.target.value)}
+        />
         <h1>Plataforma</h1>
-        <input className={styles.platforminput} type="text" />
+        <input className={styles.platforminput} type="text"
+          value={platform}
+          onChange={(ev) => setPlatform(ev.target.value)}
+        />
         <h1>Gênero</h1>
-        <input className={styles.genreinput} type="text" />
+        <input className={styles.genreinput} type="text"
+          value={genre}
+          onChange={(ev) => setGenre(ev.target.value)}
+        />
         <h1>Data de lançamento</h1>
-        <input className={styles.dateinput} type="date" />
+        <input className={styles.dateinput} type="date"
+          value={date}
+          onChange={(ev) => setDate(ev.target.value)}
+
+        />
         <h1>Imagem do jogo</h1>
-        <input className={styles.imageinput} type="text" />
+        <input className={styles.imageinput} type="text"
+          value={image}
+          onChange={(ev) => setImage(ev.target.value)}
+
+        />
         <h1>Descrição</h1>
         <input className={styles.descriptioninput} type="text" />
         <button className={styles.button} onClick={submitGame}>Adicionar Jogo</button>
