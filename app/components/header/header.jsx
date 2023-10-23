@@ -3,7 +3,7 @@
 import styles from './header.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
-import { GrGroup } from 'react-icons/gr';
+import { BiSolidGroup } from 'react-icons/bi';
 import { BiSolidHome } from 'react-icons/bi';
 import { GiRetroController } from 'react-icons/gi';
 import { SiLinktree } from 'react-icons/si';
@@ -14,50 +14,47 @@ import Link from 'next/link';
 
 function Header() {
 
-
-    const [type, setType] = useState('');
-
-
-    function teste() {
-        if (type === '') {
-            setType(true);
-        } else {
-            setType('');
-        }
-    }
-
+const meuLink = "https://linktr.ee/joao.senai"
 
     return (
         <div>
             <header className={styles.mainContainer}>
-                <nav className={styles.nav}>
-
-                    <div onClick={teste} className={styles.menu}>
-                        <div className={styles.menu1}>
-                            <Image className={styles.logoOctopus} src={'/LOGO-octopusBlack.png'} alt="akfadfa" width={120} height={120}></Image>
-                        </div>
-                    </div>
-
-                </nav>
-                <div className={styles.icons}>
+                <div className={styles.cont1}>
                     <Link href="/">
-                    <BiSolidHome className={styles.icon1} />
+                        <Image className={styles.logoOctopus} src={'/LOGO-octopusBlack.png'} alt="Logo da empresa" width={50} height={50}></Image>
                     </Link>
-                    <Link href="/sobrenos">
-                    <GrGroup className={styles.icon2} />
-                    </Link>
-
-                    <GiRetroController className={styles.icon3} />
-
-                    <div className={styles.icons1}>
-                <SiLinktree className={styles.icon4} />
                 </div>
 
+                <div className={styles.menu}>
+                    <div className={styles.navigation}>
+                        <ul>
+                            <li>
+                                <Link className={styles.a} href="/">
+                                    <span className={styles.icon}>
+                                        <BiSolidHome className={styles.fa} />
+                                    </span>
+                                    <span className={styles.title}>Home</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className={styles.a} href="/sobrenos">
+                                    <span className={styles.icon}>
+                                        <BiSolidGroup className={styles.fa} />
+                                    </span>
+                                    <span className={styles.title}>Sobre Nós</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className={styles.a} href={meuLink} target='_blank'>
+                                    <span className={styles.icon}>
+                                        <SiLinktree className={styles.fa} />
+                                    </span>
+                                    <span className={styles.title}>LinkTree</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-
-           
-
-
             </header>
         </div>
     );
