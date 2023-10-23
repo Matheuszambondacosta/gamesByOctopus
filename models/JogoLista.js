@@ -1,8 +1,29 @@
 import NewGame from "./Jogo";
+import { fetchAsyncGames } from "@/data/gamedata";
 
 export default class NewGameList {
   constructor() {
     this.games = [];
+  }
+
+  demonMethod(lista) {
+    
+    this.games = this.games.concat(lista);
+    console.log("Ele está observando");
+    console.log(this.games);
+    this.angelMethod();
+    console.log("Ele ainda está observando");
+    console.log(this.games);
+
+  }
+
+  // exclude duplicate games
+  angelMethod() {
+    this.games = this.games.filter((game, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === game.id
+      ))
+    )
   }
 
   addNewGame(newGame) {
@@ -11,8 +32,11 @@ export default class NewGameList {
   }
 
   removeGame(id) {
+    const game = this.getNewGamePorId(id);
+    console.log(game);
     this.games = this.games.filter(game => game.id !== id);
-    this.updateValues();
+    console.log(this.games);
+    return this.games;
   }
 
   getGames() {
@@ -35,9 +59,12 @@ export default class NewGameList {
       NewGame.descricao = descricao;
     }
   }
+  
+
   updateValues() {
-    this.totalGames = this.games.length;
-    this.totalGamesRead = this.games.filter(game => game.lido).length;
-    this.totalGamesNotRead = this.games.filter(game => !game.lido).length;
+    this.games.forEach((game) => {
+      game.updateValues();
+    });
   }
+
 }

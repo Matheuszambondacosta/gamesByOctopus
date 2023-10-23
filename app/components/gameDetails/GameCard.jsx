@@ -4,7 +4,11 @@ import { BsTrashFill } from 'react-icons/bs';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import Link from 'next/link';
 
-const GameCard = ({ game }) => {
+const GameCard = ({ game, gamelist }) => {
+  const removeGames = (id) => {
+    gamelist.removeGame(id);
+  }
+
   const getPlatforms = (platforms) => {
     const platformsStr = platforms
       .map((platform) => platform.platform.name)
@@ -29,8 +33,8 @@ const GameCard = ({ game }) => {
         <p className={styles.platforms}>{getPlatforms(game.parent_platforms)}</p>
       </div>
       <div className={styles.contaierbuttons}>
-        <button className={styles.button}>
-          <BsTrashFill />
+        <button className={styles.button} value={game.name}>
+          <BsTrashFill onClick={() => removeGames(game.id)} />
         </button>
         <button className={styles.button}>
           <BiSolidEditAlt />

@@ -30,6 +30,7 @@ function Home() {
   const [description, setDescription] = useState('');
   const lowerSearch = search.toLowerCase();
   const [allGames, setAllGames] = useState([]);
+  const [jesus, setJesus] = useState([]);
 
 
   const handleSearch = () => {
@@ -57,9 +58,11 @@ function Home() {
     setDescription('');
   }
 
-  const removeGames = (game) => {
-    gamelist.removeGame(game);
+  const removeGames = (id) => {
+    console.log(id);
+    gamelist.removeGame(id);
     setNewGameList(gamelist.getGames());
+    setJesus(gamelist.getGames());
   }
   useEffect(() => {
     const fetchAllGames = async () => {
@@ -76,6 +79,8 @@ function Home() {
         const endIndex = startIndex + itemsPerPage;
         const visibleGames = allGameData.slice(startIndex, endIndex);
         setGames(visibleGames);
+        gamelist.demonMethod(allGameData);
+        setJesus(gamelist.getGames())
       } catch (error) {
         console.log(error);
       }
@@ -114,6 +119,15 @@ function Home() {
       return platformFilter && genreFilter && ratingFilter;
     });
     setGames(filters);
+  };
+  const getPlatforms = (platforms) => {
+    const platformsStr = platforms
+      .map((platform) => platform.platform.name)
+      .join(", ");
+    if (platformsStr.length > 50) {
+      return platformsStr.substring(0, 50) + "...";
+    }
+    return platformsStr;
   };
 
   const nextPage = () => {
@@ -193,12 +207,42 @@ function Home() {
           Redefinir Filtros
         </button>
         <div className={styles.containerGames}>
-          <GameList filterGames={games} />
+          {
+            jesus && jesus.length > 0 ? (
+              jesus.map((game) =>
+              <div key={game.id} className={styles2.card}>
+                <div className={styles2.imgcards}>
+                <img className={styles2.gameThumb} src={game.background_image} alt={game.name} />
+                <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
+                </div>
+                <div className={styles2.cardInfo}>
+                  <h2 className={styles2.title}>{game.name}</h2>
+                  <p className={styles2.rating}>{game.rating}</p>
+                  <p className={styles2.released}>{game.released}</p>
+                  <p className={styles2.genres}>{game.genres.map((genre) => genre.name).join(", ")}</p>
+                  <p className={styles2.platforms}>{getPlatforms(game.parent_platforms)}</p>
+                </div>
+                <div className={styles2.contaierbuttons}>
+                  <button className={styles2.button} value={game.name}>
+                    <BsTrashFill onClick={() => removeGames(game.id)} />
+                  </button>
+                  <button className={styles2.button}>
+                    <BiSolidEditAlt />
+                  </button>
+                </div>
+              </div>
+          
+          )) : (
+            <div className={styles.loading}>
+              <p>Não foi possível encontar um jogo</p>
+            </div>
+          )
+        }
         </div>
       </div>
       <div>
         {
-          newGameList && newGameList.length > 0 ? (
+          newGameList.length > 0 ? (
             newGameList.map((game) => (
               <div className={styles2.card} key={game.id}>
                 <div className={styles2.imgcards}>
