@@ -50,12 +50,12 @@ export default class NewGameList {
     const NewGame = this.getNewGamePorId(id);
 
     if (NewGame) {
-      NewGame.nome = nome;
-      NewGame.plataforma = plataforma;
-      NewGame.genero = genero;
-      NewGame.dataLancamento = dataLancamento;
-      NewGame.imagem = imagem;
-      NewGame.descricao = descricao;
+      NewGame.name = nome;
+      NewGame.platform = plataforma;
+      NewGame.genre = genero;
+      NewGame.released = dataLancamento;
+      NewGame.image = imagem;
+      NewGame.description = descricao;
     }
   }
 

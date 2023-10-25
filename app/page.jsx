@@ -231,7 +231,7 @@ function Home() {
 
 
   const updateGame = () => {
-    gamelist.updateGame(flag, name, platform, genre, date, image, description);
+    gamelist.updateNewGame(flag, name, platform, genre, date, image, description);
     setNewGameList(gamelist.getGames());
     setHolyGames(gamelist.getGames());
     setEditbtn(false);
@@ -242,12 +242,13 @@ function Home() {
 
   const editGame = (id) => {
     const game = gamelist.getNewGamePorId(id);
-    setname(game.nome);
-    setPlatform(game.plataforma);
-    setGenre(game.generos);
-    setDate(game.dataLancamento);
-    setImage(game.imagem);
-    setDescription(game.descricao);
+    setname(game.name);
+    setPlatform(game.platform);
+    setGenre(game.genres);
+    setDate(game.date);
+    setImage(game.image);
+    setDescription(game.description);
+    changeDisplay();
     setEditbtn(true);
     setFlag(id);
   }
@@ -340,8 +341,8 @@ function Home() {
         <button className={styles2.button} value={game.name}>
           <BsTrashFill onClick={() => removeGames(game.id)} />
         </button>
-        <button className={styles2.button}>
-          <BiSolidEditAlt />
+        <button className={styles2.button} value={game.name}>
+          <BiSolidEditAlt onClick={() => editGame(game.id) } />
         </button>
       </div>
     </div>
@@ -378,7 +379,7 @@ function Home() {
               <div key={platform} className={styles.checkbox}>
                 <input
                   type="checkbox"
-                  value={platform.name}
+                  value={platform}
                   onChange={handlePlatformChange}
                 />
                 <label>{platform}</label>
