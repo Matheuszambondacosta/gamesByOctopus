@@ -7,7 +7,11 @@
     height: 100vh;
     height: 100%;
 } 
+.checkbox{
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
 
+}
 .pagesbuttons{
   display: flex;
   justify-content: center;

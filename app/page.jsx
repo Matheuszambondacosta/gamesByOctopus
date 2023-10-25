@@ -22,7 +22,7 @@ function Home() {
   const [newGameList, setNewGameList] = useState(gamelist.getGames());
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [selectedPlatform, setSelectedPlatform] = useState('all');
+  const [selectedPlatform, setSelectedPlatform] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [selectedRating, setSelectedRating] = useState('all');
   const [name, setname] = useState('');
@@ -45,16 +45,17 @@ function Home() {
     }
     gamelist.addNewGame(newGame);
     setNewGameList(gamelist.getGames());
-  
+
     setname('');
     setPlatform('');
     setGenre('');
     setDate('');
     setImage('');
     setDescription('');
+    changeDisplay();
     return indica;
   }
-  
+
 
   const removeGames = (id) => {
     console.log(id);
@@ -86,7 +87,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if(allGames && allGames.data){
+    if (allGames && allGames.data) {
       allGames.data.map((game) => {
         const newGame = new NewGame(game.name, game.platforms, game.genres, game.released, game.image, game.description);
         gamelist.addNewGame(newGame);
@@ -99,17 +100,83 @@ function Home() {
 
 
 
-  // const filteredGames = () => {
-  //   const filters = games.filter((game) => {
-  //     const platformName = game.platforms.map((platform) => platform.platform.name);
-  //     const gameGenres = game.genres.map((genre) => genre.name);
-  //     const platformFilter = selectedPlatform === 'all' || platformName.includes(selectedPlatform);
-  //     const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
-  //     const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
-  //     return platformFilter && genreFilter && ratingFilter;
-  //   });
-  //   setGames(filters);
-  // };
+  const filteredGames = () => {
+    const filters = HolyGames.filter((game) => {
+      const platformNames = game.platforms.map((platform) => platform.platform.name);
+      const gameGenres = game.genres.map((genre) => genre.name);
+      const platformFilter = selectedPlatform.length === 0 || selectedPlatform.some((selectedPlatform) => platformNames.includes(selectedPlatform));
+      const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
+      const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
+      return platformFilter && genreFilter && ratingFilter;
+    });
+    setHolyGames(filters);
+  };
+  
+
+   const uniquePlatforms = () => {
+    const allPlatforms = gamelist.getGames().map((game) => {
+      if (game.platforms && Array.isArray(game.platforms)) {
+        return game.platforms.map((platform) => platform.platform.name);
+      }
+      return [];
+    });
+    
+    const flatPlatforms = allPlatforms.flat();
+    const uniquePlatforms = [...new Set(flatPlatforms.sort())];
+    return uniquePlatforms;
+  };
+
+  useEffect(() => {
+    filteredGames();
+  }, [selectedPlatform, selectedGenre, selectedRating]);
+  
+
+  const uniqueGenres = () => {
+    const allGenres = gamelist.getGames().map((game) => {
+      if (Array.isArray(game.genres)) {
+        return game.genres.map((genre) => genre.name);
+      }
+      return [];
+    });
+    const flatGenres = allGenres.flat();
+    const uniqueGenres = [...new Set(flatGenres.sort())];
+    return uniqueGenres;
+  };
+
+  const uniqueRatings = () => {
+    const allRatings = gamelist.getGames().map((game) => game.rating);
+    const uniqueRatings = [...new Set(allRatings.sort())];
+    return uniqueRatings;
+  };
+
+    const handleSearch = () => {
+      const filteredGames = gamelist.getGames().filter((game) => {
+        return game.name.toLowerCase().includes(lowerSearch);
+      });
+      setHolyGames(filteredGames);
+    };
+    const handlePlatformChange = (event) => {
+      const selectedPlatform = event.target.value;
+      setPlatform((prevPlatforms) => {
+        if (prevPlatforms.includes(selectedPlatform)) {
+          return prevPlatforms.filter((platform) => platform !== selectedPlatform);
+        } else {
+          return [...prevPlatforms, selectedPlatform];
+        }
+      });
+    };
+
+    const handleGenreChange = (event) => {
+      const selectedGenre = event.target.value;
+      setGenre((prevGenres) => {
+        if (prevGenres.includes(selectedGenre)) {
+          return prevGenres.filter((genre) => genre !== selectedGenre);
+        } else {
+          return [...prevGenres, selectedGenre];
+        }
+      });
+    };
+
   const getPlatforms = (platforms) => {
     const platformsStr = platforms
       .map((platform) => platform.platform.name)
@@ -144,7 +211,7 @@ function Home() {
     setDivGames(!divGames);
     setDivInput(!divInput);
   }
-    
+
 
 
   const clearFilters = () => {
@@ -161,12 +228,7 @@ function Home() {
     setDescription('');
   }
 
-  const handleSearch = () => {
-    const filteredGames = gamelist.getGames().filter((game) => {
-      return game.name.toLowerCase().includes(lowerSearch);
-    });
-    setHolyGames(filteredGames);
-  }
+
 
   const updateGame = () => {
     gamelist.updateGame(flag, name, platform, genre, date, image, description);
@@ -193,7 +255,7 @@ function Home() {
 
   return (
     <main className={styles.main}>
-      <Header Prince={changeDisplay}/>
+      <Header Prince={changeDisplay} />
       <div className={styles.container}>
         <h1>Games</h1>
         <div className={styles.divinput}>
@@ -212,9 +274,14 @@ function Home() {
           onChange={(ev) => setSelectedPlatform(ev.target.value)}
         >
           <option value="all">Filtre pela plataforma:</option>
-          {/* {uniquePlatforms.map((name) => (
-            <option value={name}>{name}</option>
-          ))} */}
+          { 
+            // Opções de plataforma
+            uniquePlatforms().map((platform) => (
+              <option key={platform} value={platform}>
+                {platform}
+              </option>
+            ))
+        }
         </select>
         <select
           className={styles.select}
@@ -224,6 +291,11 @@ function Home() {
           <option value="all">Ordenar por gênero:</option>
           {
             // Opções de gênero
+            uniqueGenres().map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))
 
           }
         </select>
@@ -232,45 +304,55 @@ function Home() {
           value={selectedRating}
           onChange={(ev) => setSelectedRating(ev.target.value)}
         >
-          <option value="all">Ordenar por classificação:</option>
-          {/* Opções de classificação */}
+          <option value="all">Ordenar por avaliação:</option>
+          {
+            // Opções de classificação
+            uniqueRatings().map((rating) => (
+              <option key={rating} value={rating}>
+                {rating}
+              </option>
+            ))
+          }
         </select>
         <button className={styles.button} onClick={clearFilters}>
           Redefinir Filtros
         </button>
-        <div className={styles.containerGames} style={{display : divGames ? 'block' : 'none'}} value={divGames}>
-          {
-            HolyGames ? (
-              HolyGames.map((game) =>
-              <div key={game.id} className={styles2.card}>
-                <div className={styles2.imgcards}>
-                <img className={styles2.gameThumb} src={game.background_image} alt={game.name} />
-                <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
-                </div>
-                <div className={styles2.cardInfo}>
-                  <h2 className={styles2.title}>{game.name}</h2>
-                  <p className={styles2.rating}>{game.rating}</p>
-                  <p className={styles2.released}>{game.released}</p>
-                  <p className={styles2.genres}>{game.genres.map((genre) => genre.name).join(", ")}</p>
-                  <p className={styles2.platforms}>{getPlatforms(game.parent_platforms)}</p>
-                </div>
-                <div className={styles2.contaierbuttons}>
-                  <button className={styles2.button} value={game.name}>
-                    <BsTrashFill onClick={() => removeGames(game.id)} />
-                  </button>
-                  <button className={styles2.button}>
-                    <BiSolidEditAlt />
-                  </button>
-                </div>
-              </div>
-          
-          )) : (
-            <div className={styles.loading}>
-              <p>Não foi possível encontar um jogo</p>
-            </div>
-          )
-        }
-        
+        <div className={styles.containerGames} style={{ display: divGames ? 'block' : 'none' }} value={divGames}>
+        {HolyGames ? (
+  HolyGames.map((game) => (
+    <div key={game.id} className={styles2.card}>
+      <div className={styles2.imgcards}>
+        <img className={styles2.gameThumb} src={game.background_image} alt={game.name} />
+        <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
+      </div>
+      <div className={styles2.cardInfo}>
+        <h2 className={styles2.title}>{game.name}</h2>
+        <p className={styles2.rating}>{game.rating}</p>
+        <p className={styles2.released}>{game.released}</p>
+        <p className={styles2.genres}>
+          {Array.isArray(game.genres) ? game.genres.map((genre) => genre.name).join(", ") : (game.genres)}
+        </p>
+        <p className={styles2.platforms}>
+          {Array.isArray(game.platforms) ? game.platforms.map((platform) => platform.platform.name).join(", ") : (game.platforms)}
+        </p>
+      </div>
+      <div className={styles2.contaierbuttons}>
+        <button className={styles2.button} value={game.name}>
+          <BsTrashFill onClick={() => removeGames(game.id)} />
+        </button>
+        <button className={styles2.button}>
+          <BiSolidEditAlt />
+        </button>
+      </div>
+    </div>
+  ))
+) : (
+  <div className={styles.loading}>
+    <p>Não foi possível encontrar um jogo</p>
+  </div>
+)}
+
+
         </div>
       </div>
       <div className={styles.pagesbuttons}>
@@ -282,37 +364,70 @@ function Home() {
         </button>
       </div>
 
-      <div className={styles.containerInputs} style={{display : divInput ? 'block' : 'none' }} value={divInput}>
+      <div className={styles.containerInputs} style={{ display: divInput ? 'block' : 'none' }} value={divInput}>
         <h1>Nome do Jogo</h1>
-        <input className={styles.nameinput} type="text"
+        <input
+          className={styles.nameinput}
+          type="text"
           value={name}
           onChange={(ev) => setname(ev.target.value)}
         />
         <h1>Plataforma</h1>
-        <input className={styles.platforminput} type="text"
-          value={platform}
-          onChange={(ev) => setPlatform(ev.target.value)}
-        />
+        <p>Selecione a plataforma:</p>
+       { uniquePlatforms().map((platform) => (
+              <div key={platform} className={styles.checkbox}>
+                <input
+                  type="checkbox"
+                  value={platform.name}
+                  onChange={handlePlatformChange}
+                />
+                <label>{platform}</label>
+              </div>
+            ))
+}
         <h1>Gênero</h1>
-        <input className={styles.genreinput} type="text"
-          value={genre}
-          onChange={(ev) => setGenre(ev.target.value)}
-        />
+        {
+          uniqueGenres().map((genre) => (
+              <div key={genre} className={styles.checkbox}>
+                <input
+                  type="checkbox"
+                  value={genre}
+                  onChange={handleGenreChange}
+                />
+                <label>{genre}</label>
+              </div>
+            ))
+        }
         <h1>Data de lançamento</h1>
-        <input className={styles.dateinput} type="date"
+        <input
+          className={styles.dateinput}
+          type="date"
           value={date}
           onChange={(ev) => setDate(ev.target.value)}
-
         />
         <h1>Imagem do jogo</h1>
-        <input className={styles.imageinput} type="text"
+        <input
+          className={styles.imageinput}
+          type="text"
           value={image}
           onChange={(ev) => setImage(ev.target.value)}
-
         />
         <h1>Descrição</h1>
-        <input className={styles.descriptioninput} type="text" />
-        <button className={styles.button} onClick={submitGame}>Adicionar Jogo</button>
+        <input
+          className={styles.descriptioninput}
+          type="text"
+          value={description}
+          onChange={(ev) => setDescription(ev.target.value)}
+        />
+        {editbtn ? (
+          <button className={styles.button} onClick={updateGame}>
+            Atualizar Jogo
+          </button>
+        ) : (
+          <button className={styles.button} onClick={submitGame}>
+            Adicionar Jogo
+          </button>
+        )}
       </div>
     </main >
   );
