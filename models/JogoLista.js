@@ -28,7 +28,6 @@ export default class NewGameList {
 
   addNewGame(newGame) {
     this.games.push(newGame);
-    this.updateValues();
   }
 
   removeGame(id) {
@@ -59,12 +58,6 @@ export default class NewGameList {
       NewGame.descricao = descricao;
     }
   }
-  
 
-  updateValues() {
-    this.games.forEach((game) => {
-      game.updateValues();
-    });
-  }
 
 }

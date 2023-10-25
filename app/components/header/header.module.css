@@ -67,7 +67,11 @@
     line-height: 60px;
     text-align: center;
 }
-
+.icon2{
+    position: relative;
+    display: block;
+    text-align: center;
+}
 .navigation ul li:hover a .icon{
  color: #fff;
 }

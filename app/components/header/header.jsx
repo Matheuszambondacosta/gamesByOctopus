@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 
 
-function Header() {
+function Header({ Prince }) {
 
 const meuLink = "https://linktr.ee/joao.senai"
 
@@ -43,6 +43,15 @@ const meuLink = "https://linktr.ee/joao.senai"
                                     </span>
                                     <span className={styles.title}>Sobre Nós</span>
                                 </Link>
+                            </li>
+                            <li>
+                                <button onClick={Prince}
+                                className={styles.a} >
+                                    <span className={styles.icon2}>
+                                        <GiRetroController className={styles.fa} />
+                                    </span>
+
+                                </button>
                             </li>
                             <li>
                                 <Link className={styles.a} href={meuLink} target='_blank'>

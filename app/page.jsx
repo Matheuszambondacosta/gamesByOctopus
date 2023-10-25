@@ -16,51 +16,45 @@ const itemsPerPage = 10;
 const gamelist = new NewGameList();
 function Home() {
   const [flag, setFlag] = useState(0);
-  const[editbtn, setEditbtn] = useState(false);
+  const [editbtn, setEditbtn] = useState(false);
   const [divGames, setDivGames] = useState(true);
   const [divInput, setDivInput] = useState(false);
   const [newGameList, setNewGameList] = useState(gamelist.getGames());
-  const [games, setGames] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [selectedRating, setSelectedRating] = useState('all');
-  const [title, setTitle] = useState('');
+  const [name, setname] = useState('');
   const [platform, setPlatform] = useState('');
   const [genre, setGenre] = useState('');
   const [date, setDate] = useState('');
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
   const lowerSearch = search.toLowerCase();
-  const [allGames, setAllGames] = useState([]);
+  const [allGames, setAllGames] = useState(null);
   const [HolyGames, setHolyGames] = useState([]);
 
-
-  const handleSearch = () => {
-    const filteredGames = allGames.filter((game) => {
-      const gameName = game.name.toLowerCase();
-      return gameName.includes(lowerSearch);
-    });
-    setGames(filteredGames);
-  };
-
   const submitGame = () => {
-    const newGame = new NewGame(title, platform, genre, date, image, description);
-    if (!newGameList.some((game) => game.title === newGame.title)) {
+    const newGame = new NewGame(name, platform, genre, date, image, description);
+    let indica = false;
+    if (!newGameList.some((game) => game.name === newGame.name)) {
       const updatedGame = [...newGameList, newGame];
       setNewGameList(updatedGame);
+      indica = true;
     }
     gamelist.addNewGame(newGame);
     setNewGameList(gamelist.getGames());
-
-    setTitle('');
+  
+    setname('');
     setPlatform('');
     setGenre('');
     setDate('');
     setImage('');
     setDescription('');
+    return indica;
   }
+  
 
   const removeGames = (id) => {
     console.log(id);
@@ -79,10 +73,8 @@ function Home() {
           currentPage++;
         }
         setAllGames(allGameData);
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const visibleGames = allGameData.slice(startIndex, endIndex);
-        setGames(visibleGames);
+        const visibleGames = allGameData.slice(0, itemsPerPage);
+        setAllGames(visibleGames);
         gamelist.demonMethod(allGameData);
         setHolyGames(gamelist.getGames())
       } catch (error) {
@@ -94,36 +86,30 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (games && games.data) {
-      games.data.forEach((gamedata) => {
-        const newGames = newGames(
-          gamedata.name,
-          gamedata.platform,
-          gamedata.genre,
-          gamedata.date,
-          gamedata.image,
-          gamedata.description
-        );
-        gamelist.addGame(newGames);
+    if(allGames && allGames.data){
+      allGames.data.map((game) => {
+        const newGame = new NewGame(game.name, game.platforms, game.genres, game.released, game.image, game.description);
+        gamelist.addNewGame(newGame);
       });
-      const updatedNewGames = [...newGameList, gamelist.getGames()];
-      setNewGameList(updatedNewGames);
-
+      const newGamesUpdated = [...newGameList, ...gamelist.getGames()];
+      setNewGameList(newGamesUpdated);
+      setHolyGames(gamelist.getGames());
     }
-  }, [games]);
+  }, [allGames]);
 
 
-  const filteredGames = () => {
-    const filters = games.filter((game) => {
-      const platformName = game.platforms.map((platform) => platform.platform.name);
-      const gameGenres = game.genres.map((genre) => genre.name);
-      const platformFilter = selectedPlatform === 'all' || platformName.includes(selectedPlatform);
-      const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
-      const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
-      return platformFilter && genreFilter && ratingFilter;
-    });
-    setGames(filters);
-  };
+
+  // const filteredGames = () => {
+  //   const filters = games.filter((game) => {
+  //     const platformName = game.platforms.map((platform) => platform.platform.name);
+  //     const gameGenres = game.genres.map((genre) => genre.name);
+  //     const platformFilter = selectedPlatform === 'all' || platformName.includes(selectedPlatform);
+  //     const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
+  //     const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
+  //     return platformFilter && genreFilter && ratingFilter;
+  //   });
+  //   setGames(filters);
+  // };
   const getPlatforms = (platforms) => {
     const platformsStr = platforms
       .map((platform) => platform.platform.name)
@@ -140,7 +126,7 @@ function Home() {
     const startIndex = (newPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const visibleGames = allGames.slice(startIndex, endIndex);
-    setGames(visibleGames);
+    setAllGames(visibleGames);
   };
 
 
@@ -151,7 +137,7 @@ function Home() {
       const startIndex = (newPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const visibleGames = allGames.slice(startIndex, endIndex);
-      setGames(visibleGames);
+      setAllGames(visibleGames);
     }
   };
   const changeDisplay = () => {
@@ -165,10 +151,9 @@ function Home() {
     setSelectedPlatform('all');
     setSelectedGenre('all');
     setSelectedRating('all');
-    setGames(allGames);
   };
   const clearInfos = () => {
-    setTitle('');
+    setname('');
     setPlatform('');
     setGenre('');
     setDate('');
@@ -176,9 +161,15 @@ function Home() {
     setDescription('');
   }
 
+  const handleSearch = () => {
+    const filteredGames = gamelist.getGames().filter((game) => {
+      return game.name.toLowerCase().includes(lowerSearch);
+    });
+    setHolyGames(filteredGames);
+  }
 
   const updateGame = () => {
-    gamelist.updateGame(flag, title, platform, genre, date, image, description);
+    gamelist.updateGame(flag, name, platform, genre, date, image, description);
     setNewGameList(gamelist.getGames());
     setHolyGames(gamelist.getGames());
     setEditbtn(false);
@@ -189,7 +180,7 @@ function Home() {
 
   const editGame = (id) => {
     const game = gamelist.getNewGamePorId(id);
-    setTitle(game.nome);
+    setname(game.nome);
     setPlatform(game.plataforma);
     setGenre(game.generos);
     setDate(game.dataLancamento);
@@ -202,7 +193,7 @@ function Home() {
 
   return (
     <main className={styles.main}>
-      <Header />
+      <Header Prince={changeDisplay}/>
       <div className={styles.container}>
         <h1>Games</h1>
         <div className={styles.divinput}>
@@ -247,9 +238,9 @@ function Home() {
         <button className={styles.button} onClick={clearFilters}>
           Redefinir Filtros
         </button>
-        <div className={styles.containerGames}>
+        <div className={styles.containerGames} style={{display : divGames ? 'block' : 'none'}} value={divGames}>
           {
-            HolyGames && HolyGames.length > 0 ? (
+            HolyGames ? (
               HolyGames.map((game) =>
               <div key={game.id} className={styles2.card}>
                 <div className={styles2.imgcards}>
@@ -279,39 +270,8 @@ function Home() {
             </div>
           )
         }
+        
         </div>
-      </div>
-      <div>
-        {
-          newGameList.length > 0 ? (
-            newGameList.map((game) => (
-              <div className={styles2.card} key={game.id}>
-                <div className={styles2.imgcards}>
-                  <img className={styles2.gameThumb} src={game.imagem} alt={game.nome} />
-                  <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
-                </div>
-                <div className={styles2.cardInfo}>
-                  <h2 className={styles2.title}>{game.nome}</h2>
-                  <p className={styles2.released}>{game.dataLancamento}</p>
-                  <p className={styles2.genres}>{game.generos}</p>
-                  <p className={styles2.platforms}>{game.plataforma}</p>
-                </div>
-                <div className={styles2.contaierbuttons}>
-                  <button className={styles2.button}>
-                    <BsTrashFill onClick={() => removeGames(game.id)}/>
-                  </button>
-                  <button className={styles2.button}>
-                    <BiSolidEditAlt />
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div>
-              <p>Não há jogos adicionados</p>
-            </div>
-          )
-        }
       </div>
       <div className={styles.pagesbuttons}>
         <button className={styles.button} onClick={previousPage}>
@@ -322,11 +282,11 @@ function Home() {
         </button>
       </div>
 
-      <div className={styles.containerInputs}>
+      <div className={styles.containerInputs} style={{display : divInput ? 'block' : 'none' }} value={divInput}>
         <h1>Nome do Jogo</h1>
         <input className={styles.nameinput} type="text"
-          value={title}
-          onChange={(ev) => setTitle(ev.target.value)}
+          value={name}
+          onChange={(ev) => setname(ev.target.value)}
         />
         <h1>Plataforma</h1>
         <input className={styles.platforminput} type="text"

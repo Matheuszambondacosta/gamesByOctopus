@@ -1,16 +1,16 @@
 export default class NewGame {
-    constructor(nome, plataforma, genero, dataLancamento, imagem, descricao) {
-        this.nome = nome;
-        this.plataforma = plataforma;
-        this.genero = genero;
-        this.dataLancamento = dataLancamento;
-        this.imagem = imagem;
-        this.descricao = descricao;
+    constructor(name, platforms, genres, released, image, description) {
+        this.name = name;
+        this.platforms = platforms;
+        this.genres = genres;
+        this.released = released;
+        this.image = image;
+        this.description = description;
         this.id = this.generateId();
     }
 
     getInfo() {
-        return `${this.imageURL}${this.usuario}${this.nome}${this.descricao}${this.nota}${this.dataLancamento}${this.plataformas}`;
+        return `${this.imageURL}${this.usuario}${this.name}${this.description}${this.nota}${this.released}${this.platforms}`;
     }
     generateId() {
         return Math.floor(Math.random() * 100000);
