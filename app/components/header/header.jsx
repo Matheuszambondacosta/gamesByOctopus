@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 
 
-function Header({ Prince }) {
+function Header({ changeDisplay }) {
 
 const meuLink = "https://linktr.ee/joao.senai"
 
@@ -45,7 +45,7 @@ const meuLink = "https://linktr.ee/joao.senai"
                                 </Link>
                             </li>
                             <li>
-                                <button onClick={Prince}
+                                <button onClick={changeDisplay}
                                 className={styles.a} >
                                     <span className={styles.icon2}>
                                         <GiRetroController className={styles.fa} />

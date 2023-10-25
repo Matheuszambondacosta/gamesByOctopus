@@ -1,16 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import styles from './page.module.css';
-import styles2 from './components/gameDetails/GameCard.module.css';
-import { fetchAsyncGames } from '@/data/gamedata';
-import GameList from './components/gameDetails/GameList';
 import { FiSearch } from 'react-icons/fi';
-import Header from '@/app/components/header/header';
+import { fetchAsyncGames } from '@/data/gamedata';
+import styles from './page.module.css';
+import Header from './components/header/header';
+import GameList from './components/gameDetails/GameList';
 import NewGame from '@/models/Jogo';
 import NewGameList from '@/models/JogoLista';
-import { BsTrashFill } from 'react-icons/bs';
-import { BiSolidEditAlt } from 'react-icons/bi';
-import Link from 'next/link';
+
 
 const itemsPerPage = 10;
 const gamelist = new NewGameList();
@@ -253,10 +250,9 @@ function Home() {
     setFlag(id);
   }
 
-
   return (
     <main className={styles.main}>
-      <Header Prince={changeDisplay} />
+      <Header changeDisplay={changeDisplay} />
       <div className={styles.container}>
         <h1>Games</h1>
         <div className={styles.divinput}>
@@ -275,14 +271,13 @@ function Home() {
           onChange={(ev) => setSelectedPlatform(ev.target.value)}
         >
           <option value="all">Filtre pela plataforma:</option>
-          { 
-            // Opções de plataforma
-            uniquePlatforms().map((platform) => (
-              <option key={platform} value={platform}>
-                {platform}
-              </option>
-            ))
-        }
+          {uniquePlatforms().map((platform) => (
+            <option key={platform} value={platform}>
+              {platform}
+            </option>
+
+          ))
+          }
         </select>
         <select
           className={styles.select}
@@ -290,15 +285,11 @@ function Home() {
           onChange={(ev) => setSelectedGenre(ev.target.value)}
         >
           <option value="all">Ordenar por gênero:</option>
-          {
-            // Opções de gênero
-            uniqueGenres().map((genre) => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))
-
-          }
+          {uniqueGenres().map((genre) => (
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
         </select>
         <select
           className={styles.select}
@@ -306,54 +297,17 @@ function Home() {
           onChange={(ev) => setSelectedRating(ev.target.value)}
         >
           <option value="all">Ordenar por avaliação:</option>
-          {
-            // Opções de classificação
-            uniqueRatings().map((rating) => (
-              <option key={rating} value={rating}>
-                {rating}
-              </option>
-            ))
-          }
+          {uniqueRatings().map((rating) => (
+            <option key={rating} value={rating}>
+              {rating}
+            </option>
+          ))}
         </select>
         <button className={styles.button} onClick={clearFilters}>
           Redefinir Filtros
         </button>
         <div className={styles.containerGames} style={{ display: divGames ? 'block' : 'none' }} value={divGames}>
-        {HolyGames ? (
-  HolyGames.map((game) => (
-    <div key={game.id} className={styles2.card}>
-      <div className={styles2.imgcards}>
-        <img className={styles2.gameThumb} src={game.background_image} alt={game.name} />
-        <Link className={styles2.seeMore} href={`../../games/${game.id}`}>Veja Mais</Link>
-      </div>
-      <div className={styles2.cardInfo}>
-        <h2 className={styles2.title}>{game.name}</h2>
-        <p className={styles2.rating}>{game.rating}</p>
-        <p className={styles2.released}>{game.released}</p>
-        <p className={styles2.genres}>
-          {Array.isArray(game.genres) ? game.genres.map((genre) => genre.name).join(", ") : (game.genres)}
-        </p>
-        <p className={styles2.platforms}>
-          {Array.isArray(game.platforms) ? game.platforms.map((platform) => platform.platform.name).join(", ") : (game.platforms)}
-        </p>
-      </div>
-      <div className={styles2.contaierbuttons}>
-        <button className={styles2.button} value={game.name}>
-          <BsTrashFill onClick={() => removeGames(game.id)} />
-        </button>
-        <button className={styles2.button} value={game.name}>
-          <BiSolidEditAlt onClick={() => editGame(game.id) } />
-        </button>
-      </div>
-    </div>
-  ))
-) : (
-  <div className={styles.loading}>
-    <p>Não foi possível encontrar um jogo</p>
-  </div>
-)}
-
-
+          <GameList games={HolyGames} removeGame={removeGames} editGame={editGame} />
         </div>
       </div>
       <div className={styles.pagesbuttons}>
@@ -375,29 +329,29 @@ function Home() {
         />
         <h1>Plataforma</h1>
         <p>Selecione a plataforma:</p>
-       { uniquePlatforms().map((platform) => (
-              <div key={platform} className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  value={platform}
-                  onChange={handlePlatformChange}
-                />
-                <label>{platform}</label>
-              </div>
-            ))
-}
+        {uniquePlatforms().map((platform) => (
+          <div key={platform} className={styles.checkbox}>
+            <input
+              type="checkbox"
+              value={platform}
+              onChange={handlePlatformChange}
+            />
+            <label>{platform}</label>
+          </div>
+        ))
+        }
         <h1>Gênero</h1>
         {
           uniqueGenres().map((genre) => (
-              <div key={genre} className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  value={genre}
-                  onChange={handleGenreChange}
-                />
-                <label>{genre}</label>
-              </div>
-            ))
+            <div key={genre} className={styles.checkbox}>
+              <input
+                type="checkbox"
+                value={genre}
+                onChange={handleGenreChange}
+              />
+              <label>{genre}</label>
+            </div>
+          ))
         }
         <h1>Data de lançamento</h1>
         <input
@@ -429,8 +383,9 @@ function Home() {
             Adicionar Jogo
           </button>
         )}
+
       </div>
-    </main >
+    </main>
   );
 }
 
