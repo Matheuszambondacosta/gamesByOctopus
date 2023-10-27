@@ -17,7 +17,7 @@ function GameCard({ game, removeGame, editGame }) {
         <p className={styles.rating}>{game.rating}</p>
         <p className={styles.released}>{game.released}</p>
         <p className={styles.genres}>
-          {Array.isArray(game.genres) ? game.genres.map((genre) => genre.name).join(", ") : (game.genres)}
+          {game.genres ? game.genres.map((genre) => genre.name).join(", ") : (game.genre)}
         </p>
         <p className={styles.platforms}>
           {Array.isArray(game.parent_platforms) ? game.parent_platforms.map((platform) => platform.platform.name).join(", ") : (game.parent_platforms)}

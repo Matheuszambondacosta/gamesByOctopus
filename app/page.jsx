@@ -27,13 +27,12 @@ function Home() {
   const [genre, setGenre] = useState('');
   const [date, setDate] = useState('');
   const [image, setImage] = useState('');
-  const [description, setDescription] = useState('');
   const lowerSearch = search.toLowerCase();
   const [allGames, setAllGames] = useState(null);
   const [HolyGames, setHolyGames] = useState([]);
 
   const submitGame = () => {
-    const newGame = new NewGame(name, platform, genre, date, image, description);
+    const newGame = new NewGame(name, platform, genre, date, image);
     let indica = false;
     if (!newGameList.some((game) => game.name === newGame.name)) {
       const updatedGame = [...newGameList, newGame];
@@ -48,7 +47,6 @@ function Home() {
     setGenre('');
     setDate('');
     setImage('');
-    setDescription('');
     changeDisplay();
     return indica;
   }
@@ -86,7 +84,7 @@ function Home() {
   useEffect(() => {
     if (allGames && allGames.data) {
       allGames.data.map((game) => {
-        const newGame = new NewGame(game.name, game.platform, game.genre, game.released, game.background_image, game.description);
+        const newGame = new NewGame(game.name, game.platform, game.genres, game.released, game.background_image);
         gamelist.addNewGame(newGame);
       });
       const newGamesUpdated = [...newGameList, ...gamelist.getGames()];
@@ -225,13 +223,12 @@ function Home() {
     setGenre('');
     setDate('');
     setImage('');
-    setDescription('');
   }
 
 
 
   const updateGame = () => {
-    gamelist.updateNewGame(flag, name, platform, genre, date, image, description);
+    gamelist.updateNewGame(flag, name, platform, genre, date, image, );
     setNewGameList(gamelist.getGames());
     setHolyGames(gamelist.getGames());
     setEditbtn(false);
@@ -261,12 +258,6 @@ function Home() {
     }
     setPlatform(platformsStr);
   }
-  
-  if (game.genres && Array.isArray(game.genres)) {
-    setGenre(game.genres.map((genre) => genre.name).join(", "));
-  } else {
-    setGenre("");
-  }
 
   if (game.released) {
     const formattedDate = formatDate(game.released);
@@ -274,9 +265,8 @@ function Home() {
   } else {
     setDate(""); // Define como vazio caso não haja informações de data
   }
-
+  setGenre(game.genres.map((genre) => genre.name).join(", "));
   setImage(game.background_image);
-  setDescription(game.description);
   changeDisplay();
   setEditbtn(true);
   setFlag(id);
@@ -399,13 +389,6 @@ function Home() {
           value={image}
           onChange={(ev) => setImage(ev.target.value)}
         />
-        <h1>Descrição</h1>
-        <input
-          className={styles.descriptioninput}
-          type="text"
-          value={description}
-          onChange={(ev) => setDescription(ev.target.value)}
-        />
         {editbtn ? (
           <div className={styles.editcontainer}>
            <h1>Plataformas</h1> 
@@ -413,6 +396,12 @@ function Home() {
           type="text"
           value={platform}
           onChange={(ev) => setPlatform(ev.target.value)}
+        />
+        <h1>Gêneros</h1>
+        <input className={styles.genre}
+          type="text"
+          value={genre}
+          onChange={(ev) => setGenre(ev.target.value)}
         />
           <button className={styles.button} onClick={updateGame}>
             Atualizar Jogo
