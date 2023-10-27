@@ -20,7 +20,7 @@ function GameCard({ game, removeGame, editGame }) {
           {Array.isArray(game.genres) ? game.genres.map((genre) => genre.name).join(", ") : (game.genres)}
         </p>
         <p className={styles.platforms}>
-          {Array.isArray(game.platforms) ? game.platforms.map((platform) => platform.platform.name).join(", ") : (game.platforms)}
+          {Array.isArray(game.parent_platforms) ? game.parent_platforms.map((platform) => platform.platform.name).join(", ") : (game.parent_platforms)}
         </p>
       </div>
       <div className={styles.contaierbuttons}>

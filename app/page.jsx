@@ -86,11 +86,12 @@ function Home() {
   useEffect(() => {
     if (allGames && allGames.data) {
       allGames.data.map((game) => {
-        const newGame = new NewGame(game.name, game.platforms, game.genres, game.released, game.image, game.description);
+        const newGame = new NewGame(game.name, game.platform, game.genre, game.released, game.background_image, game.description);
         gamelist.addNewGame(newGame);
       });
       const newGamesUpdated = [...newGameList, ...gamelist.getGames()];
       setNewGameList(newGamesUpdated);
+      setNewGameList(gamelist.getGames());
       setHolyGames(gamelist.getGames());
     }
   }, [allGames]);
@@ -101,9 +102,11 @@ function Home() {
     const filters = HolyGames.filter((game) => {
       const platformNames = game.platforms.map((platform) => platform.platform.name);
       const gameGenres = game.genres.map((genre) => genre.name);
-      const platformFilter = selectedPlatform.length === 0 || selectedPlatform.some((selectedPlatform) => platformNames.includes(selectedPlatform));
-      const genreFilter = selectedGenre === 'all' || gameGenres.includes(selectedGenre);
-      const ratingFilter = selectedRating === 'all' || game.rating === selectedRating;
+      const platformFilter = selectedPlatform.length == 0 || selectedPlatform.some((selectedPlatform) => platformNames.includes(selectedPlatform));
+      const genreFilter = selectedGenre == 'all' || gameGenres.includes(selectedGenre);
+      const ratingFilter = selectedRating == 'all' || game.rating == selectedRating;
+      
+      
       return platformFilter && genreFilter && ratingFilter;
     });
     setHolyGames(filters);
@@ -235,20 +238,49 @@ function Home() {
     clearInfos();
     changeDisplay();
   }
-
+  const formatDate = (date) => {
+    if (!date) return '';
+    
+    const originalDate = new Date(date); // Converta a data original para um objeto Date
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, '0');
+    const day = String(originalDate.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
 
   const editGame = (id) => {
     const game = gamelist.getNewGamePorId(id);
     setname(game.name);
-    setPlatform(game.platform);
-    setGenre(game.genres);
-    setDate(game.date);
-    setImage(game.image);
-    setDescription(game.description);
-    changeDisplay();
-    setEditbtn(true);
-    setFlag(id);
+    if(game.platforms){
+    const platformsStr = game.platforms
+    .map((platform) => platform.platform.name)
+    .join(", ");
+  if (platformsStr.length > 50) {
+    platformsStr.substring(0, 50) + "...";
+    }
+    setPlatform(platformsStr);
   }
+  
+  if (game.genres && Array.isArray(game.genres)) {
+    setGenre(game.genres.map((genre) => genre.name).join(", "));
+  } else {
+    setGenre("");
+  }
+
+  if (game.released) {
+    const formattedDate = formatDate(game.released);
+    setDate(formattedDate);
+  } else {
+    setDate(""); // Define como vazio caso não haja informações de data
+  }
+
+  setImage(game.background_image);
+  setDescription(game.description);
+  changeDisplay();
+  setEditbtn(true);
+  setFlag(id);
+}
 
   return (
     <main className={styles.main}>
@@ -327,7 +359,7 @@ function Home() {
           value={name}
           onChange={(ev) => setname(ev.target.value)}
         />
-        <h1>Plataforma</h1>
+        {/* <h1>Plataforma</h1>
         <p>Selecione a plataforma:</p>
         {uniquePlatforms().map((platform) => (
           <div key={platform} className={styles.checkbox}>
@@ -352,7 +384,7 @@ function Home() {
               <label>{genre}</label>
             </div>
           ))
-        }
+        } */}
         <h1>Data de lançamento</h1>
         <input
           className={styles.dateinput}
@@ -375,9 +407,17 @@ function Home() {
           onChange={(ev) => setDescription(ev.target.value)}
         />
         {editbtn ? (
+          <div className={styles.editcontainer}>
+           <h1>Plataformas</h1> 
+          <input className={styles.platform}
+          type="text"
+          value={platform}
+          onChange={(ev) => setPlatform(ev.target.value)}
+        />
           <button className={styles.button} onClick={updateGame}>
             Atualizar Jogo
           </button>
+          </div>
         ) : (
           <button className={styles.button} onClick={submitGame}>
             Adicionar Jogo

@@ -1,13 +1,9 @@
-import NewGame from "./Jogo";
-import { fetchAsyncGames } from "@/data/gamedata";
-
 export default class NewGameList {
   constructor() {
     this.games = [];
   }
 
   demonMethod(lista) {
-    
     this.games = this.games.concat(lista);
     console.log("Ele está observando");
     console.log(this.games);
@@ -46,16 +42,15 @@ export default class NewGameList {
     return this.games.find(game => game.id === id);
   }
 
-  updateNewGame(id, nome, plataforma, genero, dataLancamento, imagem, descricao) {
-    const NewGame = this.getNewGamePorId(id);
-
+  updateNewGame(flag, name, platform, genre, released, image, description) {
+    const NewGame = this.getNewGamePorId(flag);
     if (NewGame) {
-      NewGame.name = nome;
-      NewGame.platform = plataforma;
-      NewGame.genre = genero;
-      NewGame.released = dataLancamento;
-      NewGame.image = imagem;
-      NewGame.description = descricao;
+      NewGame.name = name;
+      NewGame.platform = platform;
+      NewGame.genre = genre;
+      NewGame.released = released;
+      NewGame.image = image;
+      NewGame.description = description;
     }
   }
 
