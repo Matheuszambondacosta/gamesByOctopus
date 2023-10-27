@@ -12,6 +12,8 @@ import NewGameList from '@/models/JogoLista';
 const itemsPerPage = 10;
 const gamelist = new NewGameList();
 function Home() {
+  const [msg, setMsg] = useState('');
+  const [type, setType] = useState('');
   const [flag, setFlag] = useState(0);
   const [editbtn, setEditbtn] = useState(false);
   const [divGames, setDivGames] = useState(true);
@@ -30,6 +32,21 @@ function Home() {
   const lowerSearch = search.toLowerCase();
   const [allGames, setAllGames] = useState(null);
   const [HolyGames, setHolyGames] = useState([]);
+
+  function sendErrorMsg(msg1) {
+    setMsg(msg1);
+    setTimeout(function () {
+      setMsg('');
+      setType('');
+    }, 5000);
+  }
+  function sendType(type) {
+    if (type === "error") {
+      setType('error');
+    } else if (type === "success") {
+      setType('success');
+    }
+  }
 
   const submitGame = () => {
     const newGame = new NewGame(name, platform, genre, date, image);
