@@ -38,30 +38,10 @@ const gameDescription = ({ params }) => {
     </TabList>
 
     <TabPanel>
-      <h2>{
-                games.parent_platforms ? (
-                    games.parent_platforms.map((platform) => {
-                        return (
-                            <p className={styles.platforms}>{platform.platform.name}</p>
-                        )
-                    })
-                ) : (
-                    null
-                )
-            }</h2>
+      <h2>{Array.isArray(games.platforms) ? games.platforms.map((platform) => platform.platform.name).join(", ") : (games.platforms)}</h2>
     </TabPanel>
     <TabPanel>
-      <h2>{
-                games.genres ? (
-                    games.genres.map((genre) => {
-                        return (
-                            <p className={styles.genres}>{genre.name}</p>
-                        )
-                    })
-                ) : (
-                    null
-                )
-            }</h2>
+      <h2>{Array.isArray(games.genres) ? games.genres.map((genre) => genre.name).join(", ") : (games.genres)}</h2>
     </TabPanel>
   </Tabs>
             </div>
